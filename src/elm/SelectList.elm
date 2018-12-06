@@ -1,9 +1,12 @@
 module SelectList exposing
-    ( SelectList(..)
+    ( Position(..)
+    , SelectList(..)
     , active
     , moveToBeginningOfSelectList
     , toList
+    , toListWithPosition
     , updateAt
+    , valueAt
     )
 
 import List.Extra as List
@@ -80,6 +83,12 @@ fromListWithPosition default xs =
             valuesByPosition After
     in
     SelectList before selected after
+
+
+valueAt : Int -> SelectList a -> Maybe a
+valueAt position ((SelectList before selected after) as list) =
+    toList list
+        |> List.getAt position
 
 
 updateAt : Int -> (a -> a) -> SelectList a -> SelectList a

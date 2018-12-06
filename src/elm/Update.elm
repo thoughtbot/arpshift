@@ -5,6 +5,7 @@ port module Update exposing
     )
 
 import Lane
+import List.Extra as List
 import Model exposing (Chord, Model, Msg(..))
 import Music
 import Time
@@ -51,3 +52,10 @@ update msg model =
 
         TogglePlay ->
             ( Model.togglePlay model, Cmd.none )
+
+        ToggleNoteInLane note position ->
+            let
+                newLanes =
+                    List.updateIf (\existingNote -> note == existingNote) (Lane.toggle position) model.lanes
+            in
+            ( { model | lanes = newLanes }, Cmd.none )

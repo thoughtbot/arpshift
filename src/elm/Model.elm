@@ -34,6 +34,7 @@ type Msg
     = NoOp
     | Tick
     | TogglePlay
+    | ToggleNoteInLane Lane Int
 
 
 type alias Flags =
@@ -45,19 +46,10 @@ initial =
     { tempo = defaultTempo
     , currentTick = 0
     , lanes =
-        [ Lane.initial 30
-            |> Lane.setLoop 2
-            |> Lane.turnOn 0
+        [ Lane.initial 50
         , Lane.initial 60
-            |> Lane.turnOn 1
-            |> Lane.setLoop 4
         , Lane.initial 67
-            |> Lane.turnOn 2
-            |> Lane.turnOn 5
-            |> Lane.setLoop 5
         , Lane.initial 69
-            |> Lane.turnOn 4
-            |> Lane.setLoop 5
         ]
     , playState = Playing
     }

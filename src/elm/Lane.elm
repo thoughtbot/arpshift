@@ -2,8 +2,10 @@ module Lane exposing
     ( Lane
     , currentNoteForLane
     , initial
+    , laneNotes
     , setLoop
     , tickLane
+    , toggle
     , turnOff
     , turnOn
     )
@@ -22,6 +24,11 @@ type Lane
 
 type NoteNumber
     = NoteNumber Int
+
+
+laneNotes : Lane -> SelectList Bool
+laneNotes (Lane lane) =
+    lane.notes
 
 
 initial : Int -> Lane
@@ -80,6 +87,20 @@ turnOn position lane =
 turnOff : Int -> Lane -> Lane
 turnOff position lane =
     set position False lane
+
+
+toggle : Int -> Lane -> Lane
+toggle position (Lane lane) =
+    let
+        currentValue =
+            SelectList.valueAt position lane.notes
+    in
+    case currentValue of
+        Nothing ->
+            Lane lane
+
+        Just foundValue ->
+            set position (not foundValue) (Lane lane)
 
 
 set : Int -> Bool -> Lane -> Lane
