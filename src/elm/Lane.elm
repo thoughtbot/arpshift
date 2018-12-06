@@ -16,6 +16,7 @@ type Lane
         { pitch : NoteNumber
         , notes : SelectList Bool
         , loopAt : Int
+        , offset : Int
         }
 
 
@@ -29,6 +30,7 @@ initial noteNumber =
         { pitch = NoteNumber noteNumber
         , notes = SelectList [] False (List.repeat 7 False)
         , loopAt = 8
+        , offset = 0
         }
 
 
@@ -58,13 +60,13 @@ tickLane (Lane lane) =
 
 
 currentNoteForLane : Lane -> Maybe Int
-currentNoteForLane (Lane { notes, pitch }) =
+currentNoteForLane (Lane { notes, pitch, offset }) =
     if SelectList.active notes then
         let
             (NoteNumber rawPitch) =
                 pitch
         in
-        Just rawPitch
+        Just <| rawPitch + offset
 
     else
         Nothing
