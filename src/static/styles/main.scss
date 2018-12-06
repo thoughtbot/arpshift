@@ -1,10 +1,13 @@
 $dark: #282a35;
 $dark-shift: #484B5D;
 $white: #fff;
+$white-shift: #EAEAEA;
 $green: #57b560;
+$green-shift: #429B4A;
 $orange: #f6bb73;
 $blue: #6471a2;
 $purple: #A300D3;
+$purple-shift: #8500AD;
 
 body {
   background: $dark;
@@ -43,7 +46,14 @@ body {
   background: $green;
   border-radius: 40px;
   font-weight: bold;
+  color: $white;
+  border: none;
+  outline: none;
+}
 
+.play:hover {
+  background: $green-shift;
+  cursor: pointer;
 }
 
 .top-labels {
@@ -58,7 +68,7 @@ body {
 }
 
 .pitch-label {
-  flex-grow: 2;
+  flex-grow: 4;
   text-align: center;
 }
 
@@ -68,7 +78,7 @@ body {
 }
 
 .bpm-label {
-  flex-grow: 5;
+  flex-grow: 8;
   text-align: right;
 }
 
@@ -99,14 +109,29 @@ body {
   background: $green;
 }
 
+.pitch-node-on:hover {
+  background: $green-shift;
+  cursor: pointer;
+}
+
 .pitch-node-active {
   @extend %pitch-node;
   background: $green;
 }
 
+.pitch-node-active:hover {
+  background: $green-shift;
+  cursor: pointer;
+}
+
 .pitch-node-off {
   @extend %pitch-node;
   background: $white;
+}
+
+.pitch-node-off:hover {
+  background: $white-shift;
+  cursor: pointer;
 }
 
 .transposed {
@@ -131,6 +156,11 @@ body {
   background: $white;
 }
 
+.note-enabled:hover {
+  background: $white-shift;
+  cursor: pointer;
+}
+
 .note-disabled {
   @extend %note;
   background: $dark-shift;
@@ -139,6 +169,11 @@ body {
 .note-selected {
   @extend %note;
   background: $green;
+}
+
+.note-selected:hover {
+  background: $green-shift;
+  cursor: pointer;
 }
 
 .time-node {
@@ -153,6 +188,12 @@ body {
   filter: drop-shadow(2px 1px 2px $dark);
 }
 
+.time-node:hover {
+  background: $white-shift;
+  border: solid 1px $purple;
+  cursor: pointer;
+}
+
 .time-node-active {
   height: 25px;
   width: 25px;
@@ -163,6 +204,15 @@ body {
   left: -19px;
   top: -18px;
   filter: drop-shadow(2px 1px 2px $dark);
+}
+
+.time-node-active:hover {
+  background: $purple-shift;
+  border: solid 5px $purple-shift;
+  cursor: pointer;
+  .time-bar-active {
+    background: $purple-shift;
+  }
 }
 
 .time-bar-active {
