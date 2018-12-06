@@ -5,6 +5,8 @@ module Model exposing
     , Msg(..)
     , currentChord
     , initial
+    , shouldPlay
+    , togglePlay
     )
 
 import Lane exposing (Lane)
@@ -15,16 +17,23 @@ type alias Chord =
     List Int
 
 
+type PlayState
+    = Playing
+    | Paused
+
+
 type alias Model =
     { tempo : BPM
     , currentTick : Int
     , lanes : List Lane
+    , playState : PlayState
     }
 
 
 type Msg
     = NoOp
     | Tick
+    | TogglePlay
 
 
 type alias Flags =
@@ -50,6 +59,7 @@ initial =
             |> Lane.turnOn 4
             |> Lane.setLoop 5
         ]
+    , playState = Playing
     }
 
 
@@ -61,3 +71,18 @@ currentChord { lanes } =
     in
     List.map Lane.currentNoteForLane lanes
         |> catMaybes
+
+
+togglePlay : Model -> Model
+togglePlay ({ playState } as model) =
+    case playState of
+        Playing ->
+            { model | playState = Paused }
+
+        Paused ->
+            { model | playState = Playing }
+
+
+shouldPlay : Model -> Bool
+shouldPlay { playState } =
+    playState == Playing

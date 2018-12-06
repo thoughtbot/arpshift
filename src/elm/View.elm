@@ -6,8 +6,9 @@ import Html.Events exposing (onClick)
 import Model exposing (Model, Msg(..))
 
 
-view : Model -> Html a
+view : Model -> Html Msg
 view _ =
     div []
         [ h1 [] [ text "Arpshift" ]
+        , button [ onClick TogglePlay ] [ text "Toggle play" ]
         ]

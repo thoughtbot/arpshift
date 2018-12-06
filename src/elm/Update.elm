@@ -26,8 +26,12 @@ playChord =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions { tempo } =
-    Time.every (Music.millisecondsToFloat <| Music.duration tempo) (always Tick)
+subscriptions ({ tempo } as model) =
+    if Model.shouldPlay model then
+        Time.every (Music.millisecondsToFloat <| Music.duration tempo) (always Tick)
+
+    else
+        Sub.none
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -44,3 +48,6 @@ update msg model =
             ( newModel
             , playChord <| Model.currentChord newModel
             )
+
+        TogglePlay ->
+            ( Model.togglePlay model, Cmd.none )
