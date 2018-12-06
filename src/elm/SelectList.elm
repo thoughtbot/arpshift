@@ -14,8 +14,8 @@ type SelectList a
 
 
 toList : SelectList a -> List a
-toList (SelectList before selected after) =
-    before ++ [ selected ] ++ after
+toList =
+    List.map Tuple.first << toListWithPosition
 
 
 moveToBeginningOfSelectList : SelectList a -> SelectList a

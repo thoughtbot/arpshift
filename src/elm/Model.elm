@@ -37,12 +37,33 @@ initial =
     { tempo = defaultTempo
     , currentTick = 0
     , lanes =
-        [ initialLane (NoteNumber 60)
+        [ initialLane (NoteNumber 30)
+            |> setLoop 2
+        , initialLane (NoteNumber 60)
             |> set 1 True
+            |> setLoop 4
         , initialLane (NoteNumber 67)
             |> set 2 True
             |> set 5 True
             |> set 0 False
+            |> setLoop 5
+        , initialLane (NoteNumber 69)
+            |> set 0 False
+            |> set 4 True
+            |> setLoop 5
+        , initialLane (NoteNumber 72)
+            |> set 7 True
+        , initialLane (NoteNumber 76)
+            |> set 2 True
+            |> set 4 True
+        , initialLane (NoteNumber 79)
+            |> set 0 True
+            |> setLoop 2
+        , initialLane (NoteNumber 81)
+            |> set 7 True
+        , initialLane (NoteNumber 84)
+            |> set 4 True
+            |> setLoop 6
         ]
     }
 
@@ -79,11 +100,16 @@ type Lane
         }
 
 
+setLoop : Int -> Lane -> Lane
+setLoop i (Lane lane) =
+    Lane { lane | loopAt = i }
+
+
 initialLane : NoteNumber -> Lane
 initialLane noteNumber =
     Lane
         { pitch = noteNumber
-        , notes = SelectList [] True [ False, False, True, True, False, False, False ]
+        , notes = SelectList [] False [ False, False, False, False, False, False, False ]
         , loopAt = 8
         }
 
