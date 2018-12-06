@@ -1,7 +1,7 @@
 module View exposing (view)
 
 import Html exposing (..)
-import Html.Attributes exposing (href)
+import Html.Attributes exposing (class, classList, href)
 import Html.Events exposing (onClick)
 import Lane exposing (Lane)
 import Model exposing (Model, Msg(..))
@@ -37,6 +37,18 @@ viewLane lane =
                 "False"
 
         viewNote ( ( note, pos ), index ) =
-            li [ onClick <| ToggleNoteInLane lane (index - 1) ] [ text <| noteToString note ]
+            li
+                [ classList
+                    [ ( "current", pos == SelectList.Selected )
+                    , ( "enabled", Lane.enabled index lane )
+                    ]
+                ]
+                [ button [ onClick <| ToggleNoteInLane lane (index - 1) ]
+                    [ text <| noteToString note
+                    ]
+                , button [ onClick <| ToggleLoopBack lane index ]
+                    [ text "Toggle loop"
+                    ]
+                ]
     in
-    ul [] <| List.map viewNote notesWithIds
+    ul [ class "lane" ] <| List.map viewNote notesWithIds

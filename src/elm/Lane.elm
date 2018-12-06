@@ -1,6 +1,7 @@
 module Lane exposing
     ( Lane
     , currentNoteForLane
+    , enabled
     , initial
     , laneNotes
     , setLoop
@@ -110,3 +111,8 @@ set position newValue (Lane lane) =
             SelectList.updateAt position (always newValue) lane.notes
     in
     Lane { lane | notes = newNotes }
+
+
+enabled : Int -> Lane -> Bool
+enabled position (Lane { loopAt }) =
+    position <= loopAt

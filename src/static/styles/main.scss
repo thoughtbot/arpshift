@@ -1,0 +1,11 @@
+
+.lane li {
+  background: gray;
+
+  &.enabled {
+    background: white;
+  }
+  &.current {
+    background: yellow;
+  }
+}

@@ -35,6 +35,7 @@ type Msg
     | Tick
     | TogglePlay
     | ToggleNoteInLane Lane Int
+    | ToggleLoopBack Lane Int
 
 
 type alias Flags =

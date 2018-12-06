@@ -59,3 +59,10 @@ update msg model =
                     List.updateIf (\existingNote -> note == existingNote) (Lane.toggle position) model.lanes
             in
             ( { model | lanes = newLanes }, Cmd.none )
+
+        ToggleLoopBack note position ->
+            let
+                newLanes =
+                    List.updateIf (\existingNote -> note == existingNote) (Lane.setLoop position) model.lanes
+            in
+            ( { model | lanes = newLanes }, Cmd.none )
