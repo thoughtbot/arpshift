@@ -1,8 +1,14 @@
-
+$dark: #282a35;
+$dark-shift: #484B5D;
+$white: #fff;
+$green: #57b560;
+$orange: #f6bb73;
+$blue: #6471a2;
+$purple: #A300D3;
 
 body {
-  background: black;
-  color: white;
+  background: $dark;
+  color: $white;
   font-size: 18px;
   font-family: 'Roboto';
 }
@@ -18,12 +24,25 @@ body {
 }
 
 .logo {
+  margin-top: 10px;
+}
+
+.logo-left {
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.logo-right {
+  font-weight: 400;
+  color: $blue;
+  font-size: 34px;
 }
 
 .play {
   padding: 20px 80px;
-  background: green;
+  background: $green;
   border-radius: 40px;
+  font-weight: bold;
 
 }
 
@@ -31,6 +50,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  color: $blue;
 }
 
 .root-label {
@@ -59,11 +79,12 @@ body {
 }
 
 .root {
-
+  flex-grow: 1;
 }
 
 .pitch {
   display: flex;
+  flex-grow: 1;
 }
 
 %pitch-node {
@@ -75,75 +96,100 @@ body {
 
 .pitch-node-on {
   @extend %pitch-node;
-  background: white;
+  background: $green;
 }
 
 .pitch-node-active {
   @extend %pitch-node;
-  background: green;
+  background: $green;
 }
 
 .pitch-node-off {
   @extend %pitch-node;
-  background: blue;
+  background: $white;
 }
 
 .transposed {
+  flex-grow: 1;
 }
 
 .notes {
   display: flex;
+  flex-grow: 0;
 }
 
 %note {
   height: 100px;
   width: 100px;
-  background: white;
-  border: solid 1px black;
+  background: $white;
+  border: solid 1px $dark;
   position: relative;
 }
 
 .note-enabled {
   @extend %note;
-  background: white;
+  background: $white;
 }
 
 .note-disabled {
   @extend %note;
-  background: gray;
+  background: $dark-shift;
 }
 
 .note-selected {
   @extend %note;
-  background: green;
+  background: $green;
 }
 
 .time-node {
   height: 25px;
   width: 25px;
-  background: purple;
+  background: $white;
+  border: solid 1px $dark;
   border-radius: 50%;
   position: absolute;
   left: -12px;
   top: -12px;
+  filter: drop-shadow(2px 1px 2px $dark);
 }
 
 .time-node-active {
   height: 25px;
   width: 25px;
-  background: orange;
+  background: $purple;
   border-radius: 50%;
-  border: solid 5px yellow;
+  border: solid 5px $purple;
   position: absolute;
   left: -19px;
   top: -18px;
+  filter: drop-shadow(2px 1px 2px $dark);
 }
 
 .time-bar-active {
   height: 100px;
-  width: 3px;
-  background: orange;
+  width: 5px;
+  background: $purple;
   position: absolute;
   top: 14px;
-  left: 11px;
+  left: 10px;
+}
+
+%playing-node {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  position: absolute;
+  left: 42px;
+  top: 42px;
+}
+
+.playing-node-off {
+  @extend %playing-node;
+  background: $dark;
+}
+
+.playing-node-on {
+  @extend %playing-node;
+  background: $orange;
+  border: solid 1px $dark;
 }
