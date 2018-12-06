@@ -4,7 +4,8 @@ port module Update exposing
     , update
     )
 
-import Model exposing (Chord, Model, Msg(..), tickLane)
+import Lane
+import Model exposing (Chord, Model, Msg(..))
 import Music
 import Time
 
@@ -38,7 +39,7 @@ update msg model =
         Tick ->
             let
                 newModel =
-                    { model | currentTick = model.currentTick + 1, lanes = List.map tickLane model.lanes }
+                    { model | currentTick = model.currentTick + 1, lanes = List.map Lane.tickLane model.lanes }
             in
             ( newModel
             , playChord <| Model.currentChord newModel

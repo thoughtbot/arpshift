@@ -5,9 +5,9 @@ module Model exposing
     , Msg(..)
     , currentChord
     , initial
-    , tickLane
     )
 
+import Lane exposing (Lane)
 import Music exposing (BPM, defaultTempo)
 import SelectList exposing (SelectList(..))
 
@@ -37,44 +37,21 @@ initial =
     { tempo = defaultTempo
     , currentTick = 0
     , lanes =
-        [ initialLane (NoteNumber 30)
-            |> setLoop 2
-        , initialLane (NoteNumber 60)
-            |> set 1 True
-            |> setLoop 4
-        , initialLane (NoteNumber 67)
-            |> set 2 True
-            |> set 5 True
-            |> set 0 False
-            |> setLoop 5
-        , initialLane (NoteNumber 69)
-            |> set 0 False
-            |> set 4 True
-            |> setLoop 5
-        , initialLane (NoteNumber 72)
-            |> set 7 True
-        , initialLane (NoteNumber 76)
-            |> set 2 True
-            |> set 4 True
-        , initialLane (NoteNumber 79)
-            |> set 0 True
-            |> setLoop 2
-        , initialLane (NoteNumber 81)
-            |> set 7 True
-        , initialLane (NoteNumber 84)
-            |> set 4 True
-            |> setLoop 6
+        [ Lane.initial 30
+            |> Lane.setLoop 2
+            |> Lane.turnOn 0
+        , Lane.initial 60
+            |> Lane.turnOn 1
+            |> Lane.setLoop 4
+        , Lane.initial 67
+            |> Lane.turnOn 2
+            |> Lane.turnOn 5
+            |> Lane.setLoop 5
+        , Lane.initial 69
+            |> Lane.turnOn 4
+            |> Lane.setLoop 5
         ]
     }
-
-
-set : Int -> Bool -> Lane -> Lane
-set position newValue (Lane lane) =
-    let
-        newNotes =
-            SelectList.updateAt position (always newValue) lane.notes
-    in
-    Lane { lane | notes = newNotes }
 
 
 currentChord : Model -> Chord
@@ -83,61 +60,5 @@ currentChord { lanes } =
         catMaybes =
             List.filterMap identity
     in
-    List.map currentNoteForLane lanes
+    List.map Lane.currentNoteForLane lanes
         |> catMaybes
-        |> List.map (\(NoteNumber v) -> v)
-
-
-type NoteNumber
-    = NoteNumber Int
-
-
-type Lane
-    = Lane
-        { pitch : NoteNumber
-        , notes : SelectList Bool
-        , loopAt : Int
-        }
-
-
-setLoop : Int -> Lane -> Lane
-setLoop i (Lane lane) =
-    Lane { lane | loopAt = i }
-
-
-initialLane : NoteNumber -> Lane
-initialLane noteNumber =
-    Lane
-        { pitch = noteNumber
-        , notes = SelectList [] False [ False, False, False, False, False, False, False ]
-        , loopAt = 8
-        }
-
-
-tickLane : Lane -> Lane
-tickLane (Lane lane) =
-    let
-        (SelectList before selected after) =
-            lane.notes
-
-        newNotes =
-            case ( after, List.length before + 1 == lane.loopAt ) of
-                ( [], _ ) ->
-                    SelectList.moveToBeginningOfSelectList lane.notes
-
-                ( _, True ) ->
-                    SelectList.moveToBeginningOfSelectList lane.notes
-
-                ( x :: xs, _ ) ->
-                    SelectList (before ++ [ selected ]) x xs
-    in
-    Lane { lane | notes = newNotes }
-
-
-currentNoteForLane : Lane -> Maybe NoteNumber
-currentNoteForLane (Lane { notes, pitch }) =
-    if SelectList.active notes then
-        Just pitch
-
-    else
-        Nothing
