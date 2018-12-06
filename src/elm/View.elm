@@ -1,9 +1,13 @@
 module View exposing (view)
 
 import Html exposing (..)
-import Model exposing (Model)
+import Html.Attributes exposing (href)
+import Html.Events exposing (onClick)
+import Model exposing (Model, Msg(..))
 
 
 view : Model -> Html a
 view _ =
-    h1 [] [ text "Arpshift" ]
+    div []
+        [ h1 [] [ text "Arpshift" ]
+        ]
