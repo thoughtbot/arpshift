@@ -1,0 +1,98 @@
+%build-border {
+  border: solid 1px pink;
+}
+
+body {
+  background: black;
+  color: white;
+  font-size: 18px;
+  font-family: 'Roboto';
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+  @extend %build-border;
+}
+
+.logo {
+  @extend %build-border;
+}
+
+.play {
+  @extend %build-border;
+}
+
+.top-labels {
+  @extend %build-border;
+  display: flex;
+  justify-content: space-around;
+}
+
+.lane {
+  @extend %build-border;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.root {
+  @extend %build-border;
+}
+
+.pitch {
+  @extend %build-border;
+  display: flex;
+}
+
+.pitch-node-on {
+  height: 25px;
+  width: 25px;
+  background: white;
+  border-radius: 50%;
+}
+
+.pitch-node-active {
+  height: 25px;
+  width: 25px;
+  background: green;
+  border-radius: 50%;
+}
+
+.pitch-node-off {
+  height: 25px;
+  width: 25px;
+  background: blue;
+  border-radius: 50%;
+}
+
+.transposed {
+  @extend %build-border;
+}
+
+.notes {
+  @extend %build-border;
+  display: flex;
+}
+
+.note-enabled {
+  height: 100px;
+  width: 100px;
+  background: white;
+  border: solid 1px black;
+}
+
+.note-disabled {
+  height: 100px;
+  width: 100px;
+  background: gray;
+  border: solid 1px black;
+}
+
+.note-selected {
+  height: 100px;
+  width: 100px;
+  background: green;
+  border: solid 1px black;
+}

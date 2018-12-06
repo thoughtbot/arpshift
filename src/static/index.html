@@ -3,12 +3,239 @@
   <head>
     <meta charSet="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sup Werld</title>
+    <title>Arpshift</title>
     <meta name="description" content="Arpshift"/>
     <meta name="author" content="thoughtbot"/>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
   </head>
   <body>
-    <div id="elm"></div>
+    <nav class="header">
+      <div class="logo">
+        ARPShift
+      </div>
+      <div class="play">
+        <a>Play</a>
+      </div>
+    </nav>
+    <main>
+      <section class="top-labels">
+        <div>
+          Root
+        </div>
+        <div>
+          Pitch
+        </div>
+        <div>
+          Transposed
+        </div>
+        <div>
+          120bpm
+        </div>
+      </section>
+      <!-- First Lane -->
+      <section class="lane">
+        <div class="root">
+          A
+        </div>
+        <div class="pitch">
+          <span class="pitch-node-on"></span>
+          <span class="pitch-node-on"></span>
+          <span class="pitch-node-on"></span>
+          <span class="pitch-node-on"></span>
+          <span class="pitch-node-on"></span>
+          <span class="pitch-node-on"></span>
+          <span class="pitch-node-on"></span>
+          <span class="pitch-node-active"></span>
+          <span class="pitch-node-off"></span>
+          <span class="pitch-node-off"></span>
+          <span class="pitch-node-off"></span>
+          <span class="pitch-node-off"></span>
+          <span class="pitch-node-off"></span>
+        </div>
+        <div class="transposed">
+          A#
+        </div>
+        <div class="notes">
+          <span class="note-enabled"></span>
+          <span class="note-selected"></span>
+          <span class="note-enabled"></span>
+          <span class="note-selected"></span>
+          <span class="note-disabled"></span>
+          <span class="note-disabled"></span>
+          <span class="note-disabled"></span>
+          <span class="note-disabled"></span>
+        </div>
+      </section>
+      <!-- Second Lane -->
+      <section class="lane">
+          <div class="root">
+            A
+          </div>
+          <div class="pitch">
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-active"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+          </div>
+          <div class="transposed">
+            A#
+          </div>
+          <div class="notes">
+            <span class="note-enabled"></span>
+            <span class="note-selected"></span>
+            <span class="note-enabled"></span>
+            <span class="note-selected"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+          </div>
+        </section>
+      <!-- Third Lane -->
+      <section class="lane">
+          <div class="root">
+            A
+          </div>
+          <div class="pitch">
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-active"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+          </div>
+          <div class="transposed">
+            A#
+          </div>
+          <div class="notes">
+            <span class="note-enabled"></span>
+            <span class="note-selected"></span>
+            <span class="note-enabled"></span>
+            <span class="note-selected"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+          </div>
+        </section>
+        <!-- Fourth Lane -->
+        <section class="lane">
+            <div class="root">
+              A
+            </div>
+            <div class="pitch">
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-active"></span>
+              <span class="pitch-node-off"></span>
+              <span class="pitch-node-off"></span>
+              <span class="pitch-node-off"></span>
+              <span class="pitch-node-off"></span>
+              <span class="pitch-node-off"></span>
+            </div>
+            <div class="transposed">
+              A#
+            </div>
+            <div class="notes">
+              <span class="note-enabled"></span>
+              <span class="note-selected"></span>
+              <span class="note-enabled"></span>
+              <span class="note-selected"></span>
+              <span class="note-disabled"></span>
+              <span class="note-disabled"></span>
+              <span class="note-disabled"></span>
+              <span class="note-disabled"></span>
+            </div>
+          </section>
+      <!-- Fifth Lane -->
+      <section class="lane">
+          <div class="root">
+            A
+          </div>
+          <div class="pitch">
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-on"></span>
+            <span class="pitch-node-active"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+            <span class="pitch-node-off"></span>
+          </div>
+          <div class="transposed">
+            A#
+          </div>
+          <div class="notes">
+            <span class="note-enabled"></span>
+            <span class="note-selected"></span>
+            <span class="note-enabled"></span>
+            <span class="note-selected"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+            <span class="note-disabled"></span>
+          </div>
+        </section>
+        <!-- Sixth Lane -->
+        <section class="lane">
+            <div class="root">
+              A
+            </div>
+            <div class="pitch">
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-on"></span>
+              <span class="pitch-node-active"></span>
+              <span class="pitch-node-off"></span>
+              <span class="pitch-node-off"></span>
+              <span class="pitch-node-off"></span>
+              <span class="pitch-node-off"></span>
+              <span class="pitch-node-off"></span>
+            </div>
+            <div class="transposed">
+              A#
+            </div>
+            <div class="notes">
+              <span class="note-enabled"></span>
+              <span class="note-selected"></span>
+              <span class="note-enabled"></span>
+              <span class="note-selected"></span>
+              <span class="note-disabled"></span>
+              <span class="note-disabled"></span>
+              <span class="note-disabled"></span>
+              <span class="note-disabled"></span>
+            </div>
+          </section>
+    </main>
   </body>
 </html>
