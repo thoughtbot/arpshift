@@ -17,18 +17,18 @@
         <a>Play</a>
       </div>
     </nav>
-    <main>
+    <main class="main">
       <section class="top-labels">
-        <div>
+        <div class="root-label">
           Root
         </div>
-        <div>
+        <div class="pitch-label">
           Pitch
         </div>
-        <div>
+        <div class="transposed-label">
           Transposed
         </div>
-        <div>
+        <div class="bpm-label">
           120bpm
         </div>
       </section>
@@ -56,14 +56,32 @@
           A#
         </div>
         <div class="notes">
-          <span class="note-enabled"></span>
-          <span class="note-selected"></span>
-          <span class="note-enabled"></span>
-          <span class="note-selected"></span>
-          <span class="note-disabled"></span>
-          <span class="note-disabled"></span>
-          <span class="note-disabled"></span>
-          <span class="note-disabled"></span>
+          <div class="note-enabled">
+            <div class="time-node"></div>
+          </div>
+          <div class="note-selected">
+            <div class="time-node"></div>
+          </div>
+          <div class="note-enabled">
+            <div class="time-node"></div>
+          </div>
+          <div class="note-selected">
+            <div class="time-node"></div>
+          </div>
+          <div class="note-disabled">
+            <div class="time-node-active">
+
+            </div>
+          </div>
+          <div class="note-disabled">
+            <div class="time-node"></div>
+          </div>
+          <div class="note-disabled">
+            <div class="time-node"></div>
+          </div>
+          <div class="note-disabled">
+            <div class="time-node"></div>
+          </div>
         </div>
       </section>
       <!-- Second Lane -->
