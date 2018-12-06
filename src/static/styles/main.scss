@@ -1,6 +1,4 @@
-%build-border {
-  border: solid 1px pink;
-}
+
 
 body {
   background: black;
@@ -11,18 +9,15 @@ body {
 
 .main {
   padding: 0 40px;
-  @extend %build-border;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   padding: 40px;
-  @extend %build-border;
 }
 
 .logo {
-  @extend %build-border;
 }
 
 .play {
@@ -33,43 +28,41 @@ body {
 }
 
 .top-labels {
-  @extend %build-border;
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .root-label {
-  @extend %build-border;
+  flex-grow: 1;
 }
 
 .pitch-label {
-  @extend %build-border;
+  flex-grow: 2;
+  text-align: center;
 }
 
 .transposed-label {
-  @extend %build-border;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .bpm-label {
-  @extend %build-border;
+  flex-grow: 5;
+  text-align: right;
 }
 
-
-
 .lane {
-  @extend %build-border;
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .root {
-  @extend %build-border;
+
 }
 
 .pitch {
-  @extend %build-border;
   display: flex;
 }
 
@@ -96,11 +89,9 @@ body {
 }
 
 .transposed {
-  @extend %build-border;
 }
 
 .notes {
-  @extend %build-border;
   display: flex;
 }
 
