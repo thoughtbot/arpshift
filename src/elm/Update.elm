@@ -53,16 +53,23 @@ update msg model =
         TogglePlay ->
             ( Model.togglePlay model, Cmd.none )
 
-        ToggleNoteInLane note position ->
+        ToggleNoteInLane lane position ->
             let
                 newLanes =
-                    List.updateIf (\existingNote -> note == existingNote) (Lane.toggle position) model.lanes
+                    List.updateIf (\existingLane -> lane == existingLane) (Lane.toggle position) model.lanes
             in
             ( { model | lanes = newLanes }, Cmd.none )
 
-        ToggleLoopBack note position ->
+        ToggleLoopBack lane position ->
             let
                 newLanes =
-                    List.updateIf (\existingNote -> note == existingNote) (Lane.setLoop position) model.lanes
+                    List.updateIf (\existingLane -> lane == existingLane) (Lane.setLoop position) model.lanes
+            in
+            ( { model | lanes = newLanes }, Cmd.none )
+
+        SetOffsetOnLane lane offset ->
+            let
+                newLanes =
+                    List.updateIf (\existingLane -> lane == existingLane) (Lane.setOffset offset) model.lanes
             in
             ( { model | lanes = newLanes }, Cmd.none )

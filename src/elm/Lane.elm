@@ -1,10 +1,13 @@
 module Lane exposing
     ( Lane
+    , NoteNumber(..)
     , currentNoteForLane
     , enabled
     , initial
     , laneNotes
+    , laneOffset
     , setLoop
+    , setOffset
     , tickLane
     , toggle
     , turnOff
@@ -32,12 +35,17 @@ laneNotes (Lane lane) =
     lane.notes
 
 
+laneOffset : Lane -> Int
+laneOffset (Lane { offset }) =
+    offset
+
+
 initial : Int -> Lane
 initial noteNumber =
     Lane
         { pitch = NoteNumber noteNumber
         , notes = SelectList [] False (List.repeat 7 False)
-        , loopAt = 8
+        , loopAt = 7
         , offset = 0
         }
 
@@ -47,6 +55,11 @@ setLoop i (Lane lane) =
     Lane { lane | loopAt = i }
 
 
+setOffset : Int -> Lane -> Lane
+setOffset i (Lane lane) =
+    Lane { lane | offset = i }
+
+
 tickLane : Lane -> Lane
 tickLane (Lane lane) =
     let
@@ -54,7 +67,7 @@ tickLane (Lane lane) =
             lane.notes
 
         newNotes =
-            case ( after, List.length before + 1 == lane.loopAt ) of
+            case ( after, List.length before == lane.loopAt ) of
                 ( [], _ ) ->
                     SelectList.moveToBeginningOfSelectList lane.notes
 
