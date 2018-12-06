@@ -9,7 +9,6 @@ module Model exposing
 
 import Lane exposing (Lane)
 import Music exposing (BPM, defaultTempo)
-import SelectList exposing (SelectList(..))
 
 
 type alias Chord =
