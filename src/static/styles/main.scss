@@ -121,7 +121,8 @@ body {
 
 .pitch-node-on {
   @extend %pitch-node;
-  background: $green;
+//  background: $green;
+  background-image: linear-gradient($green, $green-shift);
 }
 
 .pitch-node-on:hover {
