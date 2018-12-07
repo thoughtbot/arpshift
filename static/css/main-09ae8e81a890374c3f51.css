@@ -330,7 +330,7 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 40px; }
+  padding: 40px 80px; }
 
 .logo {
   margin-top: 10px; }
@@ -344,6 +344,10 @@ body {
   color: #6471a2;
   font-size: 34px; }
 
+.nav-right {
+  display: flex;
+  align-items: center; }
+
 .play, .pause {
   padding: 20px 80px;
   border-radius: 40px;
@@ -351,6 +355,14 @@ body {
   color: #fff;
   border: none;
   outline: none; }
+
+.bpm-label select {
+  background: #282a35;
+  color: #fff;
+  outline: none;
+  width: 250px;
+  height: 50px;
+  margin-right: 20px; }
 
 .play .icon {
   background-image: url(../../static/css/5212e258e19b9319ce0d94fbc321a918.svg); }
@@ -375,15 +387,6 @@ body {
     width: 25px;
     height: 25px; }
 
-.top-labels {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 30px;
-  margin-right: 40px; }
-
-.bpm-label {
-  text-align: right; }
-
 .lane {
   display: flex;
   justify-content: center;
@@ -403,6 +406,12 @@ body {
 .pitch-node-on:hover {
   background: #32883A;
   cursor: pointer; }
+
+.pitch-node-active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px; }
 
 .pitch-node-active:hover {
   background: #32883A;
