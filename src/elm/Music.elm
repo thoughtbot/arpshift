@@ -1,14 +1,16 @@
 module Music exposing
-    ( BPM
+    ( BPM(..)
     , Degree(..)
     , HalfStep(..)
     , Milliseconds
     , Note
     , Octave(..)
     , addHalfSteps
+    , availableTempos
     , compareOffset
     , defaultTempo
     , duration
+    , equalsBPM
     , millisecondsToFloat
     , toMidiNote
     )
@@ -187,6 +189,16 @@ compareOffset (HalfStep hs1) (HalfStep hs2) =
 defaultTempo : BPM
 defaultTempo =
     BPM 120
+
+
+availableTempos : List BPM
+availableTempos =
+    [ BPM 98, BPM 120, BPM 144 ]
+
+
+equalsBPM : BPM -> BPM -> Bool
+equalsBPM (BPM bpm1) (BPM bpm2) =
+    bpm1 == bpm2
 
 
 duration : BPM -> Milliseconds

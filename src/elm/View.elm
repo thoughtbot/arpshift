@@ -1,8 +1,10 @@
 module View exposing (view)
 
 import Html exposing (..)
-import Html.Attributes exposing (checked, class, classList, href, name, type_)
-import Html.Events exposing (onClick)
+import Html.Attributes exposing (checked, class, classList, href, name, selected, type_, value)
+import Html.Events exposing (on, onClick, targetValue)
+import Html.Keyed
+import Json.Decode
 import Lane exposing (Lane)
 import Model exposing (Model, Msg(..))
 import Music
@@ -28,7 +30,7 @@ view model =
                 ]
             , playPauseButton model
             ]
-        , main_ [ class "main" ] <| [ topLabels ] ++ (List.map viewLane <| withIndex model.lanes)
+        , main_ [ class "main" ] <| [ topLabels model.tempo ] ++ (List.map viewLane <| withIndex model.lanes)
         ]
 
 
@@ -52,14 +54,45 @@ playPauseButton model =
     button [ class buttonClass, onClick TogglePlay ] [ span [ class "icon" ] [], text renderText ]
 
 
-topLabels : Html a
-topLabels =
+generateTempoOption : Music.BPM -> Html a
+generateTempoOption ((Music.BPM bpm) as fullBPM) =
+    option
+        [ value <| String.fromInt bpm
+        , selected <| Music.equalsBPM Music.defaultTempo fullBPM
+        ]
+        [ text <| String.fromInt bpm ]
+
+
+topLabels : Music.BPM -> Html Msg
+topLabels tempo =
     section [ class "top-labels" ]
         [ div [ class "root-label" ] [ text "Root" ]
         , div [ class "pitch-label" ] [ text "Pitch" ]
         , div [ class "transposed-label" ] [ text "Transposed" ]
-        , div [ class "bpm-label" ] [ text "120BPM" ]
+        , div [ class "bpm-label" ]
+            [ select
+                [ on "change" (Json.Decode.map SetBPM bpmDecoder) ]
+                (List.map generateTempoOption Music.availableTempos)
+            ]
         ]
+
+
+bpmDecoder : Json.Decode.Decoder Music.BPM
+bpmDecoder =
+    targetValue
+        |> Json.Decode.andThen
+            (\v ->
+                let
+                    mBPM =
+                        String.toInt v |> Maybe.map Music.BPM
+                in
+                case mBPM of
+                    Nothing ->
+                        Json.Decode.fail "not a number"
+
+                    Just bpm ->
+                        Json.Decode.succeed bpm
+            )
 
 
 viewLane : ( Lane, Int ) -> Html Msg

@@ -73,3 +73,6 @@ update msg model =
                     List.updateIf (\existingLane -> lane == existingLane) (Lane.setOffset offset) model.lanes
             in
             ( { model | lanes = newLanes }, Cmd.none )
+
+        SetBPM newBPM ->
+            ( { model | tempo = newBPM }, Cmd.none )

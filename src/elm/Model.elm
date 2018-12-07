@@ -37,6 +37,7 @@ type Msg
     | ToggleNoteInLane Lane Int
     | ToggleLoopBack Lane Int
     | SetOffsetOnLane Lane HalfStep
+    | SetBPM BPM
 
 
 type alias Flags =
