@@ -77,10 +77,7 @@ generateTempoOption ((Music.BPM bpm) as fullBPM) =
 topLabels : Music.BPM -> Html Msg
 topLabels tempo =
     section [ class "top-labels" ]
-        [ div [ class "root-label" ] [ text "Root" ]
-        , div [ class "pitch-label" ] [ text "Pitch" ]
-        , div [ class "transposed-label" ] [ text "Transposed" ]
-        , div [ class "bpm-label" ]
+        [ div [ class "bpm-label" ]
             [ select
                 [ on "change" (Json.Decode.map SetBPM bpmDecoder) ]
                 (List.map generateTempoOption Music.availableTempos)
@@ -178,9 +175,7 @@ viewLane ( lane, laneIndex ) =
                 ]
     in
     section [ class "lane" ]
-        [ div [ class "root" ] [ text <| noteToString <| Lane.laneNote lane ]
-        , div [ class "pitch" ] (List.map pitchNode halfStepValues)
-        , div [ class "transposed" ] [ text <| noteToString <| Lane.laneTransposedNote lane ]
+        [ div [ class "pitch" ] (List.map pitchNode halfStepValues)
         , div [ class "notes" ] (List.map viewNote <| withIndex notes)
         ]
 
