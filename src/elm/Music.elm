@@ -4,6 +4,7 @@ module Music exposing
     , Milliseconds
     , Note(..)
     , Octave(..)
+    , addHalfSteps
     , compareOffset
     , defaultTempo
     , duration

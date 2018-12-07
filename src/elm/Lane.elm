@@ -1,6 +1,5 @@
 module Lane exposing
     ( Lane
-    , NoteNumber(..)
     , currentLoopPosition
     , currentNoteForLane
     , enabled
@@ -21,15 +20,11 @@ import SelectList exposing (SelectList(..))
 
 type Lane
     = Lane
-        { pitch : NoteNumber
+        { note : ( Music.Note, Music.Octave )
         , notes : SelectList Bool
         , loopAt : Int
         , offset : HalfStep
         }
-
-
-type NoteNumber
-    = NoteNumber Int
 
 
 laneNotes : Lane -> SelectList Bool
@@ -42,10 +37,10 @@ laneOffset (Lane { offset }) =
     offset
 
 
-initial : Int -> Lane
-initial noteNumber =
+initial : Music.Note -> Music.Octave -> Lane
+initial note octave =
     Lane
-        { pitch = NoteNumber noteNumber
+        { note = ( note, octave )
         , notes = SelectList [] False (List.repeat 7 False)
         , loopAt = 7
         , offset = HalfStep 0
@@ -82,17 +77,14 @@ tickLane (Lane lane) =
     Lane { lane | notes = newNotes }
 
 
-currentNoteForLane : Lane -> Maybe Int
-currentNoteForLane (Lane { notes, pitch, offset }) =
+currentNoteForLane : Lane -> Maybe ( Music.Note, Music.Octave )
+currentNoteForLane (Lane { notes, note, offset }) =
     if SelectList.active notes then
         let
-            (NoteNumber rawPitch) =
-                pitch
-
-            (HalfStep rawOffset) =
-                offset
+            ( degree, octave ) =
+                note
         in
-        Just <| rawPitch + rawOffset
+        Just <| Music.addHalfSteps degree octave offset
 
     else
         Nothing
