@@ -15,6 +15,7 @@ module Lane exposing
     , turnOn
     )
 
+import Music exposing (HalfStep(..))
 import SelectList exposing (SelectList(..))
 
 
@@ -23,7 +24,7 @@ type Lane
         { pitch : NoteNumber
         , notes : SelectList Bool
         , loopAt : Int
-        , offset : Int
+        , offset : HalfStep
         }
 
 
@@ -36,7 +37,7 @@ laneNotes (Lane lane) =
     lane.notes
 
 
-laneOffset : Lane -> Int
+laneOffset : Lane -> HalfStep
 laneOffset (Lane { offset }) =
     offset
 
@@ -47,7 +48,7 @@ initial noteNumber =
         { pitch = NoteNumber noteNumber
         , notes = SelectList [] False (List.repeat 7 False)
         , loopAt = 7
-        , offset = 0
+        , offset = HalfStep 0
         }
 
 
@@ -56,7 +57,7 @@ setLoop i (Lane lane) =
     Lane { lane | loopAt = i }
 
 
-setOffset : Int -> Lane -> Lane
+setOffset : HalfStep -> Lane -> Lane
 setOffset i (Lane lane) =
     Lane { lane | offset = i }
 
@@ -87,8 +88,11 @@ currentNoteForLane (Lane { notes, pitch, offset }) =
         let
             (NoteNumber rawPitch) =
                 pitch
+
+            (HalfStep rawOffset) =
+                offset
         in
-        Just <| rawPitch + offset
+        Just <| rawPitch + rawOffset
 
     else
         Nothing

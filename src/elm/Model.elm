@@ -10,7 +10,7 @@ module Model exposing
     )
 
 import Lane exposing (Lane)
-import Music exposing (BPM, defaultTempo)
+import Music exposing (BPM, HalfStep, defaultTempo)
 
 
 type alias Chord =
@@ -36,7 +36,7 @@ type Msg
     | TogglePlay
     | ToggleNoteInLane Lane Int
     | ToggleLoopBack Lane Int
-    | SetOffsetOnLane Lane Int
+    | SetOffsetOnLane Lane HalfStep
 
 
 type alias Flags =

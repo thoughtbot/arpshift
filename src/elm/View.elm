@@ -5,6 +5,7 @@ import Html.Attributes exposing (checked, class, classList, href, name, type_)
 import Html.Events exposing (onClick)
 import Lane exposing (Lane)
 import Model exposing (Model, Msg(..))
+import Music
 import SelectList
 
 
@@ -47,7 +48,7 @@ viewLane ( lane, laneIndex ) =
         pitchNode v =
             let
                 currentClass =
-                    case compare (Lane.laneOffset lane) v of
+                    case Music.compareOffset (Lane.laneOffset lane) v of
                         GT ->
                             "pitch-node-on"
 
@@ -63,7 +64,7 @@ viewLane ( lane, laneIndex ) =
             SelectList.toListWithPosition <| Lane.laneNotes lane
 
         halfStepValues =
-            List.range 0 11
+            List.map Music.HalfStep <| List.range 0 11
 
         viewNote ( ( note, pos ), index ) =
             let
