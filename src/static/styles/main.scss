@@ -11,10 +11,11 @@ $purple: #A300D3;
 $purple-shift: #8500AD;
 
 body {
-  background: $dark;
   color: $white;
   font-size: 18px;
   font-family: 'Roboto';
+  background-image: url(navy_blue.png);
+  background-repeat: repeat;
 }
 
 .main {
@@ -83,17 +84,17 @@ body {
 }
 
 .pitch-label {
-  flex-grow: 4;
+  flex-grow: 5;
   text-align: center;
 }
 
 .transposed-label {
-  flex-grow: 1;
+  flex-grow: 2;
   text-align: center;
 }
 
 .bpm-label {
-  flex-grow: 8;
+  flex-grow: 10;
   text-align: right;
 }
 
