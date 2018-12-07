@@ -20,7 +20,7 @@ import SelectList exposing (SelectList(..))
 
 type Lane
     = Lane
-        { note : ( Music.Note, Music.Octave )
+        { note : Music.Note
         , notes : SelectList Bool
         , loopAt : Int
         , offset : HalfStep
@@ -37,10 +37,10 @@ laneOffset (Lane { offset }) =
     offset
 
 
-initial : Music.Note -> Music.Octave -> Lane
-initial note octave =
+initial : Music.Note -> Lane
+initial note =
     Lane
-        { note = ( note, octave )
+        { note = note
         , notes = SelectList [] False (List.repeat 7 False)
         , loopAt = 7
         , offset = HalfStep 0
@@ -77,14 +77,10 @@ tickLane (Lane lane) =
     Lane { lane | notes = newNotes }
 
 
-currentNoteForLane : Lane -> Maybe ( Music.Note, Music.Octave )
+currentNoteForLane : Lane -> Maybe Music.Note
 currentNoteForLane (Lane { notes, note, offset }) =
     if SelectList.active notes then
-        let
-            ( degree, octave ) =
-                note
-        in
-        Just <| Music.addHalfSteps degree octave offset
+        Just <| Music.addHalfSteps note offset
 
     else
         Nothing

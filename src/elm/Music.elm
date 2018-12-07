@@ -1,8 +1,9 @@
 module Music exposing
     ( BPM
+    , Degree(..)
     , HalfStep(..)
     , Milliseconds
-    , Note(..)
+    , Note
     , Octave(..)
     , addHalfSteps
     , compareOffset
@@ -21,13 +22,17 @@ type Milliseconds
     = Milliseconds Float
 
 
+type alias Note =
+    ( Degree, Octave )
+
+
 type Octave
     = Three
     | Four
     | Five
 
 
-type Note
+type Degree
     = A
     | Bb
     | B
@@ -46,14 +51,14 @@ type HalfStep
     = HalfStep Int
 
 
-addHalfSteps : Note -> Octave -> HalfStep -> ( Note, Octave )
-addHalfSteps note octave (HalfStep halfSteps) =
-    (toMidiNote note octave + halfSteps)
+addHalfSteps : Note -> HalfStep -> Note
+addHalfSteps note (HalfStep halfSteps) =
+    (toMidiNote note + halfSteps)
         |> fromMidiNote
-        |> Maybe.withDefault ( note, octave )
+        |> Maybe.withDefault note
 
 
-fromMidiNote : Int -> Maybe ( Note, Octave )
+fromMidiNote : Int -> Maybe Note
 fromMidiNote int =
     if int < 48 || int > 83 then
         Nothing
@@ -73,7 +78,7 @@ fromMidiNote int =
                 Nothing
 
 
-noteFromOffset : Int -> Note
+noteFromOffset : Int -> Degree
 noteFromOffset offset =
     case modBy 12 offset of
         0 ->
@@ -129,7 +134,7 @@ octaveOffset octave =
             72
 
 
-midiOffset : Note -> Int
+midiOffset : Degree -> Int
 midiOffset note =
     case note of
         C ->
@@ -169,8 +174,8 @@ midiOffset note =
             11
 
 
-toMidiNote : Note -> Octave -> Int
-toMidiNote note octave =
+toMidiNote : Note -> Int
+toMidiNote ( note, octave ) =
     midiOffset note + octaveOffset octave
 
 
