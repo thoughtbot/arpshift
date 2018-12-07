@@ -69,18 +69,18 @@ viewLane ( lane, laneIndex ) =
         viewNote ( ( note, pos ), index ) =
             let
                 currentClass =
-                    case ( pos == SelectList.Selected, Lane.enabled index lane ) of
-                        ( True, _ ) ->
-                            "note-selected"
-
-                        ( _, True ) ->
+                    case ( note, Lane.enabled index lane ) of
+                        ( False, True ) ->
                             "note-enabled"
+
+                        ( True, True ) ->
+                            "note-selected"
 
                         _ ->
                             "note-disabled"
 
                 playingClass =
-                    if note then
+                    if pos == SelectList.Selected then
                         "playing-node-on"
 
                     else
