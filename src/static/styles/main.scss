@@ -152,15 +152,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 14px;
 }
 
 .pitch-node-active:hover {
   background: $green-shift;
   cursor: pointer;
-}
-
-.active-node-text {
-  font-size: 14px;
 }
 
 .pitch-node-off {
