@@ -207,6 +207,9 @@ noteToString ( degree, octave ) =
                 Music.Five ->
                     "5"
 
+                Music.Six ->
+                    "6"
+
         displayDegree =
             case degree of
                 Music.C ->

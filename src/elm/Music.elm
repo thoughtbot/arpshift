@@ -32,6 +32,7 @@ type Octave
     = Three
     | Four
     | Five
+    | Six
 
 
 type Degree
@@ -62,22 +63,33 @@ addHalfSteps note (HalfStep halfSteps) =
 
 fromMidiNote : Int -> Maybe Note
 fromMidiNote int =
-    if int < 48 || int > 83 then
-        Nothing
+    let
+        thirdOctaveRange =
+            List.range 48 59
+
+        fourthOctaveRange =
+            List.range 60 71
+
+        fifthOctaveRange =
+            List.range 72 83
+
+        sixthOctaveRange =
+            List.range 84 95
+    in
+    if List.member int thirdOctaveRange then
+        Just ( noteFromOffset int, Three )
+
+    else if List.member int fourthOctaveRange then
+        Just ( noteFromOffset int, Four )
+
+    else if List.member int fifthOctaveRange then
+        Just ( noteFromOffset int, Five )
+
+    else if List.member int sixthOctaveRange then
+        Just ( noteFromOffset int, Six )
 
     else
-        case ( compare int 47, compare int 59, compare int 71 ) of
-            ( _, _, GT ) ->
-                Just ( noteFromOffset <| int - 72, Five )
-
-            ( _, GT, _ ) ->
-                Just ( noteFromOffset <| int - 60, Four )
-
-            ( GT, _, _ ) ->
-                Just ( noteFromOffset <| int - 48, Three )
-
-            _ ->
-                Nothing
+        Nothing
 
 
 noteFromOffset : Int -> Degree
@@ -134,6 +146,9 @@ octaveOffset octave =
 
         Five ->
             72
+
+        Six ->
+            84
 
 
 midiOffset : Degree -> Int
