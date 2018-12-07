@@ -76,11 +76,14 @@ tickLane (Lane lane) =
             lane.notes
 
         newNotes =
-            case ( after, List.length before == lane.loopAt ) of
+            case ( after, compare (List.length before) lane.loopAt ) of
                 ( [], _ ) ->
                     SelectList.moveToBeginningOfSelectList lane.notes
 
-                ( _, True ) ->
+                ( _, EQ ) ->
+                    SelectList.moveToBeginningOfSelectList lane.notes
+
+                ( _, GT ) ->
                     SelectList.moveToBeginningOfSelectList lane.notes
 
                 ( x :: xs, _ ) ->
