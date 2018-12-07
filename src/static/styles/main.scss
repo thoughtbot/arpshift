@@ -54,6 +54,8 @@ body {
 .play {
   @extend %button;
   background: $green;
+
+  .icon { background-image: url(./play.svg); }
 }
 
 .play:hover {
@@ -64,11 +66,25 @@ body {
 .pause {
   @extend %button;
   background: $orange;
+
+  .icon { background-image: url(./pause.svg); }
 }
 
 .pause:hover {
   background: $orange-shift;
   cursor: pointer;
+}
+
+.play, .pause {
+  display: flex;
+  align-items: center;
+
+  .icon {
+    margin-right: 10px;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+  }
 }
 
 .top-labels {
@@ -121,8 +137,7 @@ body {
 
 .pitch-node-on {
   @extend %pitch-node;
-//  background: $green;
-  background-image: linear-gradient($green, $green-shift);
+  background: $green;
 }
 
 .pitch-node-on:hover {

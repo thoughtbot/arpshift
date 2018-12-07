@@ -26,10 +26,30 @@ view model =
                 [ span [ class "logo-left" ] [ text "ARP" ]
                 , span [ class "logo-right" ] [ text "SHIFT" ]
                 ]
-            , button [ class "play", onClick TogglePlay ] [ text "Play" ]
+            , playPauseButton model
             ]
         , main_ [ class "main" ] <| [ topLabels ] ++ (List.map viewLane <| withIndex model.lanes)
         ]
+
+
+playPauseButton : Model -> Html Msg
+playPauseButton model =
+    let
+        buttonClass =
+            if Model.shouldPlay model then
+                "pause"
+
+            else
+                "play"
+
+        renderText =
+            if Model.shouldPlay model then
+                "Pause"
+
+            else
+                "Play"
+    in
+    button [ class buttonClass, onClick TogglePlay ] [ span [ class "icon" ] [], text renderText ]
 
 
 topLabels : Html a
