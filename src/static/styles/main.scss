@@ -113,11 +113,6 @@ body {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 30px;
-  margin-right: 40px;
-}
-
-.bpm-label {
-  text-align: right;
 }
 
 .lane {
@@ -154,11 +149,18 @@ body {
 .pitch-node-active {
   @extend %pitch-node;
   @extend %green-gradient;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pitch-node-active:hover {
   background: $green-shift;
   cursor: pointer;
+}
+
+.active-node-text {
+  font-size: 14px;
 }
 
 .pitch-node-off {
