@@ -49,12 +49,12 @@ initial =
     { tempo = defaultTempo
     , currentTick = 0
     , lanes =
-        [ Lane.initial ( Music.D, Music.Three )
-        , Lane.initial ( Music.G, Music.Three )
-        , Lane.initial ( Music.D, Music.Four )
-        , Lane.initial ( Music.G, Music.Four )
+        [ Lane.initial ( Music.D, Music.Five )
         , Lane.initial ( Music.B, Music.Four )
-        , Lane.initial ( Music.D, Music.Five )
+        , Lane.initial ( Music.G, Music.Four )
+        , Lane.initial ( Music.D, Music.Four )
+        , Lane.initial ( Music.G, Music.Three )
+        , Lane.initial ( Music.D, Music.Three )
         ]
     , playState = Playing
     }
