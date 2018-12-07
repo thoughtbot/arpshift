@@ -20,62 +20,96 @@ withIndex xs =
 view : Model -> Html Msg
 view model =
     div []
-        [ h1 [] [ text "Arpshift" ]
-        , button [ onClick TogglePlay ] [ text "Toggle play" ]
-        , div [] (List.map viewLane <| withIndex model.lanes)
+        [ nav [ class "header" ]
+            [ div [ class "logo" ]
+                [ span [ class "logo-left" ] [ text "ARP" ]
+                , span [ class "logo-right" ] [ text "SHIFT" ]
+                ]
+            , button [ class "play", onClick TogglePlay ] [ text "Play" ]
+            ]
+        , main_ [ class "main" ] <| [ topLabels ] ++ (List.map viewLane <| withIndex model.lanes)
+        ]
+
+
+topLabels : Html a
+topLabels =
+    section [ class "top-labels" ]
+        [ div [ class "root-label" ] [ text "Root" ]
+        , div [ class "pitch-label" ] [ text "Pitch" ]
+        , div [ class "transposed-label" ] [ text "Transposed" ]
+        , div [ class "bpm-label" ] [ text "120BPM" ]
         ]
 
 
 viewLane : ( Lane, Int ) -> Html Msg
 viewLane ( lane, laneIndex ) =
     let
+        pitchNode v =
+            let
+                currentClass =
+                    case compare (Lane.laneOffset lane) v of
+                        GT ->
+                            "pitch-node-on"
+
+                        EQ ->
+                            "pitch-node-active"
+
+                        LT ->
+                            "pitch-node-off"
+            in
+            span [ class currentClass, onClick <| SetOffsetOnLane lane v ] []
+
         notes =
             SelectList.toListWithPosition <| Lane.laneNotes lane
 
-        range =
-            List.range 1 <| List.length notes
-
-        notesWithIds =
-            List.map2 Tuple.pair notes range
-
-        noteToString note =
-            if note == True then
-                "True"
-
-            else
-                "False"
-
         halfStepValues =
-            List.range 0 5
+            List.range 0 11
 
         viewNote ( ( note, pos ), index ) =
-            li
-                [ classList
-                    [ ( "current", pos == SelectList.Selected )
-                    , ( "enabled", Lane.enabled index lane )
-                    ]
-                ]
-                [ button [ onClick <| ToggleNoteInLane lane index ]
-                    [ text <| noteToString note
-                    ]
-                , button [ onClick <| ToggleLoopBack lane index ]
-                    [ text "Toggle loop"
-                    ]
-                ]
+            let
+                currentClass =
+                    case ( pos == SelectList.Selected, Lane.enabled index lane ) of
+                        ( True, _ ) ->
+                            "note-selected"
 
-        viewRadio v =
-            input
-                [ name <| "lane-radio-" ++ String.fromInt laneIndex
-                , checked <| Lane.laneOffset lane == v
-                , type_ "radio"
-                , onClick <| SetOffsetOnLane lane v
-                ]
-                [ text <| String.fromInt v ]
+                        ( _, True ) ->
+                            "note-enabled"
 
-        radios =
-            fieldset [] (List.map viewRadio halfStepValues)
+                        _ ->
+                            "note-disabled"
+
+                playingClass =
+                    if note then
+                        "playing-node-on"
+
+                    else
+                        "playing-node-off"
+
+                inactiveTimeNode =
+                    div [ class "time-node", onClick <| ToggleLoopBack lane index ] []
+
+                activeTimeNode =
+                    div
+                        [ class "time-node-active"
+                        , onClick <| ToggleLoopBack lane index
+                        ]
+                        [ div [ class "time-bar-active" ] [] ]
+            in
+            div
+                [ class currentClass
+                , onClick <| ToggleNoteInLane lane index
+                ]
+                [ if Lane.currentLoopPosition index lane then
+                    activeTimeNode
+
+                  else
+                    inactiveTimeNode
+                , div [ class playingClass ] []
+                ]
     in
-    div []
-        [ ul [ class "lane" ] <| List.map viewNote (withIndex notes)
-        , radios
+    section [ class "lane" ]
+        [ div [ class "root" ] [ text "A" ]
+        , div [ class "pitch" ] (List.map pitchNode halfStepValues)
+        , div [ class "transposed" ] [ text "Bb" ]
+        , div [ class "notes" ] (List.map viewNote <| withIndex notes)
         ]

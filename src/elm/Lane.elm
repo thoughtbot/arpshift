@@ -1,6 +1,7 @@
 module Lane exposing
     ( Lane
     , NoteNumber(..)
+    , currentLoopPosition
     , currentNoteForLane
     , enabled
     , initial
@@ -129,3 +130,8 @@ set position newValue (Lane lane) =
 enabled : Int -> Lane -> Bool
 enabled position (Lane { loopAt }) =
     position <= loopAt
+
+
+currentLoopPosition : Int -> Lane -> Bool
+currentLoopPosition position (Lane { loopAt }) =
+    position == loopAt

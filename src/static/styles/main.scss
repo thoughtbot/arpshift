@@ -1,11 +1,245 @@
+$dark: #282a35;
+$dark-shift: #484B5D;
+$white: #fff;
+$white-shift: #EAEAEA;
+$green: #57b560;
+$green-shift: #429B4A;
+$orange: #f6bb73;
+$blue: #6471a2;
+$purple: #A300D3;
+$purple-shift: #8500AD;
 
-.lane li {
-  background: gray;
+body {
+  background: $dark;
+  color: $white;
+  font-size: 18px;
+  font-family: 'Roboto';
+}
 
-  &.enabled {
-    background: white;
+.main {
+  padding: 0 40px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+}
+
+.logo {
+  margin-top: 10px;
+}
+
+.logo-left {
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.logo-right {
+  font-weight: 400;
+  color: $blue;
+  font-size: 34px;
+}
+
+.play {
+  padding: 20px 80px;
+  background: $green;
+  border-radius: 40px;
+  font-weight: bold;
+  color: $white;
+  border: none;
+  outline: none;
+}
+
+.play:hover {
+  background: $green-shift;
+  cursor: pointer;
+}
+
+.top-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: $blue;
+}
+
+.root-label {
+  flex-grow: 1;
+}
+
+.pitch-label {
+  flex-grow: 4;
+  text-align: center;
+}
+
+.transposed-label {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.bpm-label {
+  flex-grow: 8;
+  text-align: right;
+}
+
+.lane {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.root {
+  flex-grow: 1;
+}
+
+.pitch {
+  display: flex;
+  flex-grow: 1;
+}
+
+%pitch-node {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.pitch-node-on {
+  @extend %pitch-node;
+  background: $green;
+}
+
+.pitch-node-on:hover {
+  background: $green-shift;
+  cursor: pointer;
+}
+
+.pitch-node-active {
+  @extend %pitch-node;
+  background: $green;
+}
+
+.pitch-node-active:hover {
+  background: $green-shift;
+  cursor: pointer;
+}
+
+.pitch-node-off {
+  @extend %pitch-node;
+  background: $white;
+}
+
+.pitch-node-off:hover {
+  background: $white-shift;
+  cursor: pointer;
+}
+
+.transposed {
+  flex-grow: 1;
+}
+
+.notes {
+  display: flex;
+  flex-grow: 0;
+}
+
+%note {
+  height: 100px;
+  width: 100px;
+  background: $white;
+  border: solid 1px $dark;
+  position: relative;
+}
+
+.note-enabled {
+  @extend %note;
+  background: $white;
+}
+
+.note-enabled:hover {
+  background: $white-shift;
+  cursor: pointer;
+}
+
+.note-disabled {
+  @extend %note;
+  background: $dark-shift;
+}
+
+.note-selected {
+  @extend %note;
+  background: $green;
+}
+
+.note-selected:hover {
+  background: $green-shift;
+  cursor: pointer;
+}
+
+.time-node {
+  height: 25px;
+  width: 25px;
+  background: $white;
+  border: solid 1px $dark;
+  border-radius: 50%;
+  position: absolute;
+  left: -12px;
+  top: -12px;
+  filter: drop-shadow(2px 1px 2px $dark);
+}
+
+.time-node:hover {
+  background: $white-shift;
+  border: solid 1px $purple;
+  cursor: pointer;
+}
+
+.time-node-active {
+  height: 25px;
+  width: 25px;
+  background: $purple;
+  border-radius: 50%;
+  border: solid 5px $purple;
+  position: absolute;
+  left: -19px;
+  top: -18px;
+  filter: drop-shadow(2px 1px 2px $dark);
+}
+
+.time-node-active:hover {
+  background: $purple-shift;
+  border: solid 5px $purple-shift;
+  cursor: pointer;
+  .time-bar-active {
+    background: $purple-shift;
   }
-  &.current {
-    background: yellow;
-  }
+}
+
+.time-bar-active {
+  height: 100px;
+  width: 5px;
+  background: $purple;
+  position: absolute;
+  top: 14px;
+  left: 10px;
+}
+
+%playing-node {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  position: absolute;
+  left: 42px;
+  top: 42px;
+}
+
+.playing-node-off {
+  @extend %playing-node;
+  background: $dark;
+}
+
+.playing-node-on {
+  @extend %playing-node;
+  background: $orange;
+  border: solid 1px $dark;
 }
