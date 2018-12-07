@@ -11,11 +11,10 @@ $purple: #A300D3;
 $purple-shift: #8500AD;
 
 body {
+  background: $dark;
   color: $white;
   font-size: 18px;
   font-family: 'Roboto';
-  background-image: url(navy_blue.png);
-  background-repeat: repeat;
 }
 
 .main {
