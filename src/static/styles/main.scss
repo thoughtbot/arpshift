@@ -1,17 +1,38 @@
+$black: #000;
 $dark: #282a35;
 $dark-shift: #484B5D;
 $white: #fff;
-$white-shift: #EAEAEA;
+$white-shift: #CECECE;
 $green: #57b560;
-$green-shift: #429B4A;
+$green-shift: #32883A;
 $orange: #EC8200;
 $orange-shift: #C76D00;
 $blue: #6471a2;
-$purple: #A300D3;
-$purple-shift: #8500AD;
+
+%green-gradient {
+  background-image: linear-gradient($green, $green-shift);
+}
+
+%white-gradient {
+  background-image: linear-gradient($white, $white-shift);
+}
+
+%orange-gradient {
+  background-image: linear-gradient($orange, $orange-shift);
+}
+
+%drop-shadow {
+  filter: drop-shadow(2px 1px 2px $black);
+}
 
 body {
-  background: $dark;
+  background:
+  radial-gradient(black 15%, transparent 16%) 0 0,
+  radial-gradient(black 15%, transparent 16%) 8px 8px,
+  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color:#282a35;
+  background-size:16px 16px;
   color: $white;
   font-size: 18px;
   font-family: 'Roboto';
@@ -29,6 +50,7 @@ body {
 
 .logo {
   margin-top: 10px;
+  @extend %drop-shadow;
 }
 
 .logo-left {
@@ -43,6 +65,7 @@ body {
 }
 
 %button {
+  @extend %drop-shadow;
   padding: 20px 80px;
   border-radius: 40px;
   font-weight: bold;
@@ -53,8 +76,7 @@ body {
 
 .play {
   @extend %button;
-  background: $green;
-
+  @extend %green-gradient;
   .icon { background-image: url(./play.svg); }
 }
 
@@ -65,7 +87,7 @@ body {
 
 .pause {
   @extend %button;
-  background: $orange;
+  @extend %orange-gradient;
 
   .icon { background-image: url(./pause.svg); }
 }
@@ -129,6 +151,7 @@ body {
 }
 
 %pitch-node {
+  @extend %drop-shadow;
   height: 25px;
   width: 25px;
   border-radius: 50%;
@@ -137,7 +160,7 @@ body {
 
 .pitch-node-on {
   @extend %pitch-node;
-  background: $green;
+  @extend %green-gradient;
 }
 
 .pitch-node-on:hover {
@@ -147,7 +170,7 @@ body {
 
 .pitch-node-active {
   @extend %pitch-node;
-  background: $green;
+  @extend %green-gradient;
 }
 
 .pitch-node-active:hover {
@@ -157,7 +180,7 @@ body {
 
 .pitch-node-off {
   @extend %pitch-node;
-  background: $white;
+  @extend %white-gradient;
 }
 
 .pitch-node-off:hover {
@@ -177,14 +200,13 @@ body {
 %note {
   height: 100px;
   width: 100px;
-  background: $white;
   border: solid 1px $dark;
   position: relative;
 }
 
 .note-enabled {
   @extend %note;
-  background: $white;
+  @extend %white-gradient;
 }
 
 .note-enabled:hover {
@@ -199,7 +221,7 @@ body {
 
 .note-selected {
   @extend %note;
-  background: $green;
+  @extend %green-gradient;
 }
 
 .note-selected:hover {
@@ -208,9 +230,9 @@ body {
 }
 
 .time-node {
+  @extend %white-gradient;
   height: 25px;
   width: 25px;
-  background: $white;
   border: solid 1px $dark;
   border-radius: 50%;
   position: absolute;
@@ -222,16 +244,16 @@ body {
 
 .time-node:hover {
   background: $white-shift;
-  border: solid 1px $purple;
+  border: solid 1px $blue;
   cursor: pointer;
 }
 
 .time-node-active {
   height: 25px;
   width: 25px;
-  background: $purple;
+  background: $blue;
   border-radius: 50%;
-  border: solid 5px $purple;
+  border: solid 5px $blue;
   position: absolute;
   right: -18px;
   top: -18px;
@@ -239,19 +261,10 @@ body {
   filter: drop-shadow(2px 1px 2px $dark);
 }
 
-.time-node-active:hover {
-  background: $purple-shift;
-  border: solid 5px $purple-shift;
-  cursor: pointer;
-  .time-bar-active {
-    background: $purple-shift;
-  }
-}
-
 .time-bar-active {
-  height: 100px;
+  height: 99px;
   width: 5px;
-  background: $purple;
+  background: $blue;
   position: absolute;
   top: 14px;
   left: 10px;
