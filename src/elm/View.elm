@@ -1,7 +1,18 @@
 module View exposing (view)
 
 import Html exposing (..)
-import Html.Attributes exposing (checked, class, classList, href, name, selected, type_, value)
+import Html.Attributes
+    exposing
+        ( checked
+        , class
+        , classList
+        , href
+        , name
+        , selected
+        , title
+        , type_
+        , value
+        )
 import Html.Events exposing (on, onClick, targetValue)
 import Html.Keyed
 import Json.Decode
@@ -111,7 +122,12 @@ viewLane ( lane, laneIndex ) =
                         LT ->
                             "pitch-node-off"
             in
-            span [ class currentClass, onClick <| SetOffsetOnLane lane v ] []
+            span
+                [ class currentClass
+                , title <| noteToString <| Music.addHalfSteps (Lane.laneNote lane) v
+                , onClick <| SetOffsetOnLane lane v
+                ]
+                []
 
         notes =
             SelectList.toListWithPosition <| Lane.laneNotes lane
