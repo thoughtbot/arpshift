@@ -45,7 +45,7 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 40px;
+  padding: 40px 80px;
 }
 
 .logo {
@@ -64,6 +64,11 @@ body {
   font-size: 34px;
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
 %button {
   @extend %drop-shadow;
   padding: 20px 80px;
@@ -72,6 +77,15 @@ body {
   color: $white;
   border: none;
   outline: none;
+}
+
+.bpm-label select {
+  background: $dark;
+  color: $white;
+  outline: none;
+  width: 250px;
+  height: 50px;
+  margin-right: 20px;
 }
 
 .play {
@@ -107,12 +121,6 @@ body {
     width: 25px;
     height: 25px;
   }
-}
-
-.top-labels {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 30px;
 }
 
 .lane {

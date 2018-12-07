@@ -39,9 +39,16 @@ view model =
                 [ span [ class "logo-left" ] [ text "ARP" ]
                 , span [ class "logo-right" ] [ text "SHIFT" ]
                 ]
-            , playPauseButton model
+            , div [ class "nav-right" ] [
+                div [ class "bpm-label" ]
+                [ select
+                  [ on "change" (Json.Decode.map SetBPM bpmDecoder) ]
+                  (List.map generateTempoOption Music.availableTempos)
+                ]
+              , playPauseButton model
+              ]
             ]
-        , main_ [ class "main" ] <| [ topLabels model.tempo ] ++ (List.map viewLane <| withIndex model.lanes)
+        , main_ [ class "main" ] <| (List.map viewLane <| withIndex model.lanes)
         ]
 
 
@@ -72,17 +79,6 @@ generateTempoOption ((Music.BPM bpm) as fullBPM) =
         , selected <| Music.equalsBPM Music.defaultTempo fullBPM
         ]
         [ text <| String.fromInt bpm ]
-
-
-topLabels : Music.BPM -> Html Msg
-topLabels tempo =
-    section [ class "top-labels" ]
-        [ div [ class "bpm-label" ]
-            [ select
-                [ on "change" (Json.Decode.map SetBPM bpmDecoder) ]
-                (List.map generateTempoOption Music.availableTempos)
-            ]
-        ]
 
 
 bpmDecoder : Json.Decode.Decoder Music.BPM
