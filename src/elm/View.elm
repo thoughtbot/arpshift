@@ -108,6 +108,9 @@ viewLane ( lane, laneIndex ) =
     let
         pitchNode v =
             let
+                isActive =
+                    Music.compareOffset (Lane.laneOffset lane) v == EQ
+
                 currentClass =
                     case Music.compareOffset (Lane.laneOffset lane) v of
                         GT ->
@@ -118,13 +121,23 @@ viewLane ( lane, laneIndex ) =
 
                         LT ->
                             "pitch-node-off"
+
+                appliedNote =
+                    Music.addHalfSteps (Lane.laneNote lane) v
+
+                spanBody =
+                    if isActive then
+                        [ text <| noteToString appliedNote ]
+
+                    else
+                        []
             in
             span
                 [ class currentClass
-                , title <| noteToString <| Music.addHalfSteps (Lane.laneNote lane) v
+                , title <| noteToString appliedNote
                 , onClick <| SetOffsetOnLane lane v
                 ]
-                []
+                spanBody
 
         notes =
             SelectList.toListWithPosition <| Lane.laneNotes lane
