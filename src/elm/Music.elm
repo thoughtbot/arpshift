@@ -54,6 +54,45 @@ type HalfStep
     = HalfStep Int
 
 
+type Mode
+    = Ionian
+    | Dorian
+    | Phrygian
+    | Lydian
+    | Mixolydian
+    | Aeolian
+    | Locrian
+
+
+modeScaleDegrees : Mode -> List HalfStep
+modeScaleDegrees mode =
+    let
+        hs =
+            HalfStep
+    in
+    case mode of
+        Ionian ->
+            [ hs 0, hs 2, hs 4, hs 5, hs 7, hs 9, hs 11, hs 12 ]
+
+        Dorian ->
+            [ hs 0, hs 2, hs 3, hs 5, hs 7, hs 9, hs 10, hs 12 ]
+
+        Phrygian ->
+            [ hs 0, hs 1, hs 3, hs 5, hs 7, hs 8, hs 10, hs 12 ]
+
+        Lydian ->
+            [ hs 0, hs 2, hs 4, hs 6, hs 7, hs 9, hs 11, hs 12 ]
+
+        Mixolydian ->
+            [ hs 0, hs 2, hs 4, hs 5, hs 7, hs 9, hs 10, hs 12 ]
+
+        Aeolian ->
+            [ hs 0, hs 2, hs 3, hs 5, hs 7, hs 8, hs 10, hs 12 ]
+
+        Locrian ->
+            [ hs 0, hs 1, hs 3, hs 5, hs 6, hs 8, hs 10, hs 12 ]
+
+
 addHalfSteps : Note -> HalfStep -> Note
 addHalfSteps note (HalfStep halfSteps) =
     (toMidiNote note + halfSteps)
