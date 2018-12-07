@@ -127,7 +127,7 @@ viewLane ( lane, laneIndex ) =
 
                 spanBody =
                     if isActive then
-                        [ text <| noteToString appliedNote ]
+                        [ span [ class "active-node-text" ] [ text <| noteToString appliedNote ] ]
 
                     else
                         []
