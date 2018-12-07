@@ -109,8 +109,63 @@ viewLane ( lane, laneIndex ) =
                 ]
     in
     section [ class "lane" ]
-        [ div [ class "root" ] [ text "A" ]
+        [ div [ class "root" ] [ text <| noteToString <| Lane.laneNote lane ]
         , div [ class "pitch" ] (List.map pitchNode halfStepValues)
-        , div [ class "transposed" ] [ text "Bb" ]
+        , div [ class "transposed" ] [ text <| noteToString <| Lane.laneTransposedNote lane ]
         , div [ class "notes" ] (List.map viewNote <| withIndex notes)
         ]
+
+
+noteToString : Music.Note -> String
+noteToString ( degree, octave ) =
+    let
+        displayOctave =
+            case octave of
+                Music.Three ->
+                    "3"
+
+                Music.Four ->
+                    "4"
+
+                Music.Five ->
+                    "5"
+
+        displayDegree =
+            case degree of
+                Music.C ->
+                    "C"
+
+                Music.Cs ->
+                    "Db"
+
+                Music.D ->
+                    "D"
+
+                Music.Eb ->
+                    "Eb"
+
+                Music.E ->
+                    "E"
+
+                Music.F ->
+                    "F"
+
+                Music.Fs ->
+                    "Gb"
+
+                Music.G ->
+                    "G"
+
+                Music.Ab ->
+                    "Ab"
+
+                Music.A ->
+                    "A"
+
+                Music.Bb ->
+                    "Bb"
+
+                Music.B ->
+                    "B"
+    in
+    displayDegree ++ displayOctave

@@ -4,8 +4,10 @@ module Lane exposing
     , currentNoteForLane
     , enabled
     , initial
+    , laneNote
     , laneNotes
     , laneOffset
+    , laneTransposedNote
     , setLoop
     , setOffset
     , tickLane
@@ -30,6 +32,16 @@ type Lane
 laneNotes : Lane -> SelectList Bool
 laneNotes (Lane lane) =
     lane.notes
+
+
+laneNote : Lane -> Music.Note
+laneNote (Lane lane) =
+    lane.note
+
+
+laneTransposedNote : Lane -> Music.Note
+laneTransposedNote (Lane lane) =
+    Music.addHalfSteps lane.note lane.offset
 
 
 laneOffset : Lane -> HalfStep
