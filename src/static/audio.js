@@ -1,15 +1,17 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
-const mixer = audioCtx.createGain();
-const baseGain = 0.9;
-mixer.gain.setValueAtTime(baseGain, audioCtx.currentTime);
-mixer.connect(audioCtx.destination);
-let noteCount = 0;
 
 export default class Audio {
   constructor() {
     this.attackTime = 0.01;
     this.releaseTime = 1;
+    this.comp = audioCtx.createDynamicsCompressor();
+    this.comp.threshold.setValueAtTime(-20, audioCtx.currentTime);
+    this.comp.knee.setValueAtTime(1, audioCtx.currentTime);
+    this.comp.ratio.setValueAtTime(10, audioCtx.currentTime);
+    this.comp.attack.setValueAtTime(0, audioCtx.currentTime);
+    this.comp.release.setValueAtTime(1, audioCtx.currentTime);
+    this.comp.connect(audioCtx.destination);
   }
 
   playNote(noteNumber) {
@@ -19,31 +21,14 @@ export default class Audio {
     osc.type = "triangle";
     osc.frequency.value = freq;
 
-    env.connect(mixer);
+    env.connect(this.comp);
     osc.connect(env);
     osc.start();
-    this.addNote();
     osc.stop(audioCtx.currentTime + this.envTime);
-    setTimeout(this.removeNote, this.envTime * 1000);
   }
 
   get envTime() {
     return this.attackTime + this.releaseTime;
-  }
-
-  addNote() {
-    noteCount += 1;
-    this.rebalanceMixer();
-  }
-
-  removeNote() {
-    noteCount -= 1;
-    this.rebalanceMixer();
-  }
-
-  rebalanceMixer() {
-    const volume = baseGain / (noteCount * 0.8);
-    mixer.gain.setValueAtTime(volume, audioCtx.currentTime);
   }
 
   _generateEnvelope() {
