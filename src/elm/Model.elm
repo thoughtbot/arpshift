@@ -56,7 +56,7 @@ initial =
         , Lane.initial ( Music.G, Music.Three )
         , Lane.initial ( Music.D, Music.Three )
         ]
-    , playState = Playing
+    , playState = Paused
     }
 
 

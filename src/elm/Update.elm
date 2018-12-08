@@ -25,6 +25,9 @@ playChord : Chord -> Cmd Msg
 playChord =
     Cmd.batch << List.map playNote
 
+playSilentNote : Cmd Msg
+playSilentNote =
+    playChord [0]
 
 subscriptions : Model -> Sub Msg
 subscriptions ({ tempo } as model) =
@@ -51,7 +54,7 @@ update msg model =
             )
 
         TogglePlay ->
-            ( Model.togglePlay model, Cmd.none )
+            ( Model.togglePlay model, playSilentNote )
 
         ToggleNoteInLane lane position ->
             let
