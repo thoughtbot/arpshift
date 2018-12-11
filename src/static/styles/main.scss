@@ -154,6 +154,9 @@ body {
   cursor: pointer;
 }
 
+.hide {
+  display: none;
+}
 .pitch-node-active {
   @extend %pitch-node;
   @extend %green-gradient;

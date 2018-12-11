@@ -7,6 +7,7 @@ module Lane exposing
     , laneNote
     , laneNotes
     , laneOffset
+    , laneScale
     , laneTransposedNote
     , setLoop
     , setOffset
@@ -26,12 +27,18 @@ type Lane
         , notes : SelectList Bool
         , loopAt : Int
         , offset : HalfStep
+        , scale : List Music.Note
         }
 
 
 laneNotes : Lane -> SelectList Bool
 laneNotes (Lane lane) =
     lane.notes
+
+
+laneScale : Lane -> List Music.Note
+laneScale (Lane lane) =
+    lane.scale
 
 
 laneNote : Lane -> Music.Note
@@ -49,13 +56,14 @@ laneOffset (Lane { offset }) =
     offset
 
 
-initial : Music.Note -> Lane
-initial note =
+initial : List Music.Note -> Music.Note -> Lane
+initial scale note =
     Lane
         { note = note
         , notes = SelectList [] False (List.repeat 7 False)
         , loopAt = 7
         , offset = HalfStep 0
+        , scale = scale
         }
 
 

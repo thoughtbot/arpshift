@@ -46,16 +46,20 @@ type alias Flags =
 
 initial : Model
 initial =
+    let
+        root =
+            Music.E
+
+        mode =
+            Music.Aeolian
+
+        calculatedRoots =
+            Music.roots 6 ( root, Music.Three ) mode
+    in
     { tempo = defaultTempo
     , currentTick = 0
     , lanes =
-        [ Lane.initial ( Music.D, Music.Five )
-        , Lane.initial ( Music.B, Music.Four )
-        , Lane.initial ( Music.G, Music.Four )
-        , Lane.initial ( Music.D, Music.Four )
-        , Lane.initial ( Music.G, Music.Three )
-        , Lane.initial ( Music.D, Music.Three )
-        ]
+        List.map (Lane.initial <| Music.transposeScale ( root, Music.Three ) mode) calculatedRoots
     , playState = Paused
     }
 

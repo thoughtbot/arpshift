@@ -39,14 +39,14 @@ view model =
                 [ span [ class "logo-left" ] [ text "ARP" ]
                 , span [ class "logo-right" ] [ text "SHIFT" ]
                 ]
-            , div [ class "nav-right" ] [
-                div [ class "bpm-label" ]
-                [ select
-                  [ on "change" (Json.Decode.map SetBPM bpmDecoder) ]
-                  (List.map generateTempoOption Music.availableTempos)
+            , div [ class "nav-right" ]
+                [ div [ class "bpm-label" ]
+                    [ select
+                        [ on "change" (Json.Decode.map SetBPM bpmDecoder) ]
+                        (List.map generateTempoOption Music.availableTempos)
+                    ]
+                , playPauseButton model
                 ]
-              , playPauseButton model
-              ]
             ]
         , main_ [ class "main" ] <| (List.map viewLane <| withIndex model.lanes)
         ]
@@ -130,6 +130,7 @@ viewLane ( lane, laneIndex ) =
             in
             span
                 [ class currentClass
+                , classList [ ( "hide", not <| Music.withinScale appliedNote (Lane.laneScale lane) ) ]
                 , title <| noteToString appliedNote
                 , onClick <| SetOffsetOnLane lane v
                 ]

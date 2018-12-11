@@ -3,6 +3,7 @@ module Music exposing
     , Degree(..)
     , HalfStep(..)
     , Milliseconds
+    , Mode(..)
     , Note
     , Octave(..)
     , addHalfSteps
@@ -12,7 +13,10 @@ module Music exposing
     , duration
     , equalsBPM
     , millisecondsToFloat
+    , roots
     , toMidiNote
+    , transposeScale
+    , withinScale
     )
 
 
@@ -98,6 +102,45 @@ addHalfSteps note (HalfStep halfSteps) =
     (toMidiNote note + halfSteps)
         |> fromMidiNote
         |> Maybe.withDefault note
+
+
+withinScale : Note -> List Note -> Bool
+withinScale ( degree, _ ) notes =
+    let
+        noteDegree ( deg, _ ) =
+            deg
+    in
+    List.map noteDegree notes
+        |> List.member degree
+
+
+roots : Int -> Note -> Mode -> List Note
+roots rootCount note mode =
+    let
+        scale =
+            transposeScale note mode
+
+        halfStepsToAddToNote note_ =
+            if withinScale (addHalfSteps note_ (HalfStep 4)) scale then
+                addHalfSteps note_ (HalfStep 4)
+
+            else
+                addHalfSteps note_ (HalfStep 5)
+
+        go n acc =
+            if List.length acc == rootCount then
+                acc
+
+            else
+                go (halfStepsToAddToNote n) (n :: acc)
+    in
+    go note []
+
+
+transposeScale : Note -> Mode -> List Note
+transposeScale note mode =
+    modeScaleDegrees mode
+        |> List.map (addHalfSteps note)
 
 
 fromMidiNote : Int -> Maybe Note
