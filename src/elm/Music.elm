@@ -1,9 +1,7 @@
 module Music exposing
     ( BPM(..)
-    , Degree(..)
     , HalfStep(..)
     , Milliseconds
-    , Mode(..)
     , Note
     , Octave(..)
     , addHalfSteps
@@ -18,6 +16,9 @@ module Music exposing
     , transposeScale
     , withinScale
     )
+
+import Degree exposing (Degree)
+import Mode exposing (Mode)
 
 
 type BPM
@@ -39,61 +40,36 @@ type Octave
     | Six
 
 
-type Degree
-    = A
-    | Bb
-    | B
-    | C
-    | Cs
-    | D
-    | Eb
-    | E
-    | F
-    | Fs
-    | G
-    | Ab
-
-
 type HalfStep
     = HalfStep Int
 
 
-type Mode
-    = Ionian
-    | Dorian
-    | Phrygian
-    | Lydian
-    | Mixolydian
-    | Aeolian
-    | Locrian
-
-
-modeScaleDegrees : Mode -> List HalfStep
+modeScaleDegrees : Mode.Mode -> List HalfStep
 modeScaleDegrees mode =
     let
         hs =
             HalfStep
     in
     case mode of
-        Ionian ->
+        Mode.Ionian ->
             [ hs 0, hs 2, hs 4, hs 5, hs 7, hs 9, hs 11, hs 12 ]
 
-        Dorian ->
+        Mode.Dorian ->
             [ hs 0, hs 2, hs 3, hs 5, hs 7, hs 9, hs 10, hs 12 ]
 
-        Phrygian ->
+        Mode.Phrygian ->
             [ hs 0, hs 1, hs 3, hs 5, hs 7, hs 8, hs 10, hs 12 ]
 
-        Lydian ->
+        Mode.Lydian ->
             [ hs 0, hs 2, hs 4, hs 6, hs 7, hs 9, hs 11, hs 12 ]
 
-        Mixolydian ->
+        Mode.Mixolydian ->
             [ hs 0, hs 2, hs 4, hs 5, hs 7, hs 9, hs 10, hs 12 ]
 
-        Aeolian ->
+        Mode.Aeolian ->
             [ hs 0, hs 2, hs 3, hs 5, hs 7, hs 8, hs 10, hs 12 ]
 
-        Locrian ->
+        Mode.Locrian ->
             [ hs 0, hs 1, hs 3, hs 5, hs 6, hs 8, hs 10, hs 12 ]
 
 
@@ -114,27 +90,57 @@ withinScale ( degree, _ ) notes =
         |> List.member degree
 
 
-roots : Int -> Note -> Mode -> List Note
-roots rootCount note mode =
+roots : Note -> Mode -> List Note
+roots note mode =
     let
-        scale =
-            transposeScale note mode
+        majorOpen =
+            [ addHalfSteps note (HalfStep 24)
+            , addHalfSteps note (HalfStep 16)
+            , addHalfSteps note (HalfStep 12)
+            , addHalfSteps note (HalfStep 7)
+            , note
+            , addHalfSteps note (HalfStep -5)
+            ]
 
-        halfStepsToAddToNote note_ =
-            if withinScale (addHalfSteps note_ (HalfStep 4)) scale then
-                addHalfSteps note_ (HalfStep 4)
+        minorOpen =
+            [ addHalfSteps note (HalfStep 24)
+            , addHalfSteps note (HalfStep 15)
+            , addHalfSteps note (HalfStep 12)
+            , addHalfSteps note (HalfStep 7)
+            , note
+            , addHalfSteps note (HalfStep -5)
+            ]
 
-            else
-                addHalfSteps note_ (HalfStep 5)
-
-        go n acc =
-            if List.length acc == rootCount then
-                acc
-
-            else
-                go (halfStepsToAddToNote n) (n :: acc)
+        minorDim5Open =
+            [ addHalfSteps note (HalfStep 24)
+            , addHalfSteps note (HalfStep 15)
+            , addHalfSteps note (HalfStep 12)
+            , addHalfSteps note (HalfStep 6)
+            , note
+            , addHalfSteps note (HalfStep -6)
+            ]
     in
-    go note []
+    case mode of
+        Mode.Ionian ->
+            majorOpen
+
+        Mode.Lydian ->
+            majorOpen
+
+        Mode.Mixolydian ->
+            majorOpen
+
+        Mode.Phrygian ->
+            minorOpen
+
+        Mode.Aeolian ->
+            minorOpen
+
+        Mode.Dorian ->
+            minorOpen
+
+        Mode.Locrian ->
+            minorDim5Open
 
 
 transposeScale : Note -> Mode -> List Note
@@ -159,62 +165,19 @@ fromMidiNote int =
             List.range 84 95
     in
     if List.member int thirdOctaveRange then
-        Just ( noteFromOffset int, Three )
+        Just ( Degree.fromOffset int, Three )
 
     else if List.member int fourthOctaveRange then
-        Just ( noteFromOffset int, Four )
+        Just ( Degree.fromOffset int, Four )
 
     else if List.member int fifthOctaveRange then
-        Just ( noteFromOffset int, Five )
+        Just ( Degree.fromOffset int, Five )
 
     else if List.member int sixthOctaveRange then
-        Just ( noteFromOffset int, Six )
+        Just ( Degree.fromOffset int, Six )
 
     else
         Nothing
-
-
-noteFromOffset : Int -> Degree
-noteFromOffset offset =
-    case modBy 12 offset of
-        0 ->
-            C
-
-        1 ->
-            Cs
-
-        2 ->
-            D
-
-        3 ->
-            Eb
-
-        4 ->
-            E
-
-        5 ->
-            F
-
-        6 ->
-            Fs
-
-        7 ->
-            G
-
-        8 ->
-            Ab
-
-        9 ->
-            A
-
-        10 ->
-            Bb
-
-        11 ->
-            B
-
-        _ ->
-            C
 
 
 octaveOffset : Octave -> Int
@@ -233,49 +196,9 @@ octaveOffset octave =
             84
 
 
-midiOffset : Degree -> Int
-midiOffset note =
-    case note of
-        C ->
-            0
-
-        Cs ->
-            1
-
-        D ->
-            2
-
-        Eb ->
-            3
-
-        E ->
-            4
-
-        F ->
-            5
-
-        Fs ->
-            6
-
-        G ->
-            7
-
-        Ab ->
-            8
-
-        A ->
-            9
-
-        Bb ->
-            10
-
-        B ->
-            11
-
-
 toMidiNote : Note -> Int
 toMidiNote ( note, octave ) =
-    midiOffset note + octaveOffset octave
+    Degree.toOffset note + octaveOffset octave
 
 
 compareOffset : HalfStep -> HalfStep -> Order

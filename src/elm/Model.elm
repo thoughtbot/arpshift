@@ -3,13 +3,16 @@ module Model exposing
     , Flags
     , Model
     , Msg(..)
+    , buildLanes
     , currentChord
     , initial
     , shouldPlay
     , togglePlay
     )
 
+import Degree
 import Lane exposing (Lane)
+import Mode
 import Music exposing (BPM, HalfStep, defaultTempo)
 
 
@@ -27,6 +30,8 @@ type alias Model =
     , currentTick : Int
     , lanes : List Lane
     , playState : PlayState
+    , degree : Degree.Degree
+    , mode : Mode.Mode
     }
 
 
@@ -38,6 +43,8 @@ type Msg
     | ToggleLoopBack Lane Int
     | SetOffsetOnLane Lane HalfStep
     | SetBPM BPM
+    | SetDegree Degree.Degree
+    | SetMode Mode.Mode
 
 
 type alias Flags =
@@ -48,20 +55,33 @@ initial : Model
 initial =
     let
         root =
-            Music.E
+            Degree.C
 
         mode =
-            Music.Aeolian
-
-        calculatedRoots =
-            Music.roots 6 ( root, Music.Three ) mode
+            Mode.Ionian
     in
     { tempo = defaultTempo
     , currentTick = 0
     , lanes =
-        List.map (Lane.initial <| Music.transposeScale ( root, Music.Three ) mode) calculatedRoots
+        List.repeat 6 Lane.initial_
+            |> buildLanes Lane.setScaleAndNote mode root
     , playState = Paused
+    , degree = root
+    , mode = mode
     }
+
+
+buildLanes : (List Music.Note -> Music.Note -> Lane -> Lane) -> Mode.Mode -> Degree.Degree -> List Lane.Lane -> List Lane.Lane
+buildLanes f mode root lanes =
+    let
+        calculatedRoots =
+            Music.roots ( root, Music.Four ) mode
+    in
+    List.map2 Tuple.pair calculatedRoots lanes
+        |> List.map
+            (\( r, l ) ->
+                f (Music.transposeScale ( root, Music.Three ) mode) r l
+            )
 
 
 currentChord : Model -> Chord

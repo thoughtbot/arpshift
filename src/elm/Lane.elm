@@ -4,6 +4,7 @@ module Lane exposing
     , currentNoteForLane
     , enabled
     , initial
+    , initial_
     , laneNote
     , laneNotes
     , laneOffset
@@ -11,12 +12,14 @@ module Lane exposing
     , laneTransposedNote
     , setLoop
     , setOffset
+    , setScaleAndNote
     , tickLane
     , toggle
     , turnOff
     , turnOn
     )
 
+import Degree
 import Music exposing (HalfStep(..))
 import SelectList exposing (SelectList(..))
 
@@ -67,6 +70,17 @@ initial scale note =
         }
 
 
+initial_ : Lane
+initial_ =
+    Lane
+        { note = ( Degree.C, Music.Three )
+        , notes = SelectList [] False (List.repeat 7 False)
+        , loopAt = 7
+        , offset = HalfStep 0
+        , scale = []
+        }
+
+
 setLoop : Int -> Lane -> Lane
 setLoop i (Lane lane) =
     Lane { lane | loopAt = i }
@@ -75,6 +89,11 @@ setLoop i (Lane lane) =
 setOffset : HalfStep -> Lane -> Lane
 setOffset i (Lane lane) =
     Lane { lane | offset = i }
+
+
+setScaleAndNote : List Music.Note -> Music.Note -> Lane -> Lane
+setScaleAndNote scale note (Lane lane) =
+    Lane { lane | note = note, scale = scale }
 
 
 tickLane : Lane -> Lane

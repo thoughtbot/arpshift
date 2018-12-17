@@ -1,5 +1,6 @@
 module View exposing (view)
 
+import Degree
 import Html exposing (..)
 import Html.Attributes
     exposing
@@ -17,6 +18,7 @@ import Html.Events exposing (on, onClick, targetValue)
 import Html.Keyed
 import Json.Decode
 import Lane exposing (Lane)
+import Mode
 import Model exposing (Model, Msg(..))
 import Music
 import SelectList
@@ -44,6 +46,16 @@ view model =
                     [ select
                         [ on "change" (Json.Decode.map SetBPM bpmDecoder) ]
                         (List.map generateTempoOption Music.availableTempos)
+                    ]
+                , div [ class "degree-label" ]
+                    [ select
+                        [ on "change" (Json.Decode.map SetDegree degreeDecoder) ]
+                        (List.map generateDegreeOption Degree.all)
+                    ]
+                , div [ class "mode-label" ]
+                    [ select
+                        [ on "change" (Json.Decode.map SetMode modeDecoder) ]
+                        (List.map generateModeOption Mode.all)
                     ]
                 , playPauseButton model
                 ]
@@ -81,6 +93,22 @@ generateTempoOption ((Music.BPM bpm) as fullBPM) =
         [ text <| String.fromInt bpm ]
 
 
+generateDegreeOption : Degree.Degree -> Html a
+generateDegreeOption degree =
+    option
+        [ value <| Degree.toString degree
+        ]
+        [ text <| Degree.toString degree ]
+
+
+generateModeOption : Mode.Mode -> Html a
+generateModeOption degree =
+    option
+        [ value <| Mode.toString degree
+        ]
+        [ text <| Mode.toString degree ]
+
+
 bpmDecoder : Json.Decode.Decoder Music.BPM
 bpmDecoder =
     targetValue
@@ -96,6 +124,34 @@ bpmDecoder =
 
                     Just bpm ->
                         Json.Decode.succeed bpm
+            )
+
+
+degreeDecoder : Json.Decode.Decoder Degree.Degree
+degreeDecoder =
+    targetValue
+        |> Json.Decode.andThen
+            (\v ->
+                case Degree.fromString v of
+                    Just d ->
+                        Json.Decode.succeed d
+
+                    Nothing ->
+                        Json.Decode.fail "Not a degree"
+            )
+
+
+modeDecoder : Json.Decode.Decoder Mode.Mode
+modeDecoder =
+    targetValue
+        |> Json.Decode.andThen
+            (\v ->
+                case Mode.fromString v of
+                    Just d ->
+                        Json.Decode.succeed d
+
+                    Nothing ->
+                        Json.Decode.fail "Not a mode"
             )
 
 
@@ -208,41 +264,6 @@ noteToString ( degree, octave ) =
                     "6"
 
         displayDegree =
-            case degree of
-                Music.C ->
-                    "C"
-
-                Music.Cs ->
-                    "Db"
-
-                Music.D ->
-                    "D"
-
-                Music.Eb ->
-                    "Eb"
-
-                Music.E ->
-                    "E"
-
-                Music.F ->
-                    "F"
-
-                Music.Fs ->
-                    "Gb"
-
-                Music.G ->
-                    "G"
-
-                Music.Ab ->
-                    "Ab"
-
-                Music.A ->
-                    "A"
-
-                Music.Bb ->
-                    "Bb"
-
-                Music.B ->
-                    "B"
+            Degree.toString degree
     in
     displayDegree ++ displayOctave

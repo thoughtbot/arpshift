@@ -25,9 +25,11 @@ playChord : Chord -> Cmd Msg
 playChord =
     Cmd.batch << List.map playNote
 
+
 playSilentNote : Cmd Msg
 playSilentNote =
-    playChord [0]
+    playChord [ 0 ]
+
 
 subscriptions : Model -> Sub Msg
 subscriptions ({ tempo } as model) =
@@ -79,3 +81,19 @@ update msg model =
 
         SetBPM newBPM ->
             ( { model | tempo = newBPM }, Cmd.none )
+
+        SetDegree newDegree ->
+            ( { model
+                | degree = newDegree
+                , lanes = Model.buildLanes Lane.setScaleAndNote model.mode newDegree model.lanes
+              }
+            , Cmd.none
+            )
+
+        SetMode newMode ->
+            ( { model
+                | mode = newMode
+                , lanes = Model.buildLanes Lane.setScaleAndNote newMode model.degree model.lanes
+              }
+            , Cmd.none
+            )
