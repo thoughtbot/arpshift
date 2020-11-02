@@ -32,6 +32,7 @@ type alias Model =
     , playState : PlayState
     , degree : Degree.Degree
     , mode : Mode.Mode
+    , randomNotes : List (Maybe Music.Note)
     }
 
 
@@ -45,6 +46,8 @@ type Msg
     | SetBPM BPM
     | SetDegree Degree.Degree
     | SetMode Mode.Mode
+    | SetRandomNote (Maybe Music.Note)
+    | SetRandomNotes (List (Maybe Music.Note))
 
 
 type alias Flags =
@@ -63,11 +66,12 @@ initial =
     { tempo = defaultTempo
     , currentTick = 0
     , lanes =
-        List.repeat 6 Lane.initial_
+        List.repeat 7 Lane.initial_
             |> buildLanes Lane.setScaleAndNote mode root
     , playState = Paused
     , degree = root
     , mode = mode
+    , randomNotes = [ Nothing ]
     }
 
 
@@ -75,7 +79,7 @@ buildLanes : (List Music.Note -> Music.Note -> Lane -> Lane) -> Mode.Mode -> Deg
 buildLanes f mode root lanes =
     let
         calculatedRoots =
-            Music.roots ( root, Music.Four ) mode
+            Music.roots ( root, Music.Three ) mode
     in
     List.map2 Tuple.pair calculatedRoots lanes
         |> List.map
@@ -85,12 +89,16 @@ buildLanes f mode root lanes =
 
 
 currentChord : Model -> Chord
-currentChord { lanes } =
+currentChord { lanes, randomNotes } =
     let
         catMaybes =
             List.filterMap identity
+
+        withRandomNote xs =
+            randomNotes ++ xs
     in
     List.map Lane.currentNoteForLane lanes
+        |> withRandomNote
         |> catMaybes
         |> List.map Music.toMidiNote
 

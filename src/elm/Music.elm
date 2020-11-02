@@ -11,6 +11,7 @@ module Music exposing
     , duration
     , equalsBPM
     , millisecondsToFloat
+    , octaves
     , roots
     , toMidiNote
     , transposeScale
@@ -34,7 +35,8 @@ type alias Note =
 
 
 type Octave
-    = Three
+    = Two
+    | Three
     | Four
     | Five
     | Six
@@ -42,6 +44,11 @@ type Octave
 
 type HalfStep
     = HalfStep Int
+
+
+octaves : List Octave
+octaves =
+    [ Two, Three, Four, Five, Six ]
 
 
 modeScaleDegrees : Mode.Mode -> List HalfStep
@@ -94,7 +101,8 @@ roots : Note -> Mode -> List Note
 roots note mode =
     let
         majorOpen =
-            [ addHalfSteps note (HalfStep 24)
+            [ addHalfSteps note (HalfStep 28)
+            , addHalfSteps note (HalfStep 24)
             , addHalfSteps note (HalfStep 16)
             , addHalfSteps note (HalfStep 12)
             , addHalfSteps note (HalfStep 7)
@@ -103,7 +111,8 @@ roots note mode =
             ]
 
         minorOpen =
-            [ addHalfSteps note (HalfStep 24)
+            [ addHalfSteps note (HalfStep 27)
+            , addHalfSteps note (HalfStep 24)
             , addHalfSteps note (HalfStep 15)
             , addHalfSteps note (HalfStep 12)
             , addHalfSteps note (HalfStep 7)
@@ -112,7 +121,8 @@ roots note mode =
             ]
 
         minorDim5Open =
-            [ addHalfSteps note (HalfStep 24)
+            [ addHalfSteps note (HalfStep 27)
+            , addHalfSteps note (HalfStep 24)
             , addHalfSteps note (HalfStep 15)
             , addHalfSteps note (HalfStep 12)
             , addHalfSteps note (HalfStep 6)
@@ -152,6 +162,9 @@ transposeScale note mode =
 fromMidiNote : Int -> Maybe Note
 fromMidiNote int =
     let
+        secondOctaveRange =
+            List.range 36 47
+
         thirdOctaveRange =
             List.range 48 59
 
@@ -164,7 +177,10 @@ fromMidiNote int =
         sixthOctaveRange =
             List.range 84 95
     in
-    if List.member int thirdOctaveRange then
+    if List.member int secondOctaveRange then
+        Just ( Degree.fromOffset int, Two )
+
+    else if List.member int thirdOctaveRange then
         Just ( Degree.fromOffset int, Three )
 
     else if List.member int fourthOctaveRange then
@@ -183,6 +199,9 @@ fromMidiNote int =
 octaveOffset : Octave -> Int
 octaveOffset octave =
     case octave of
+        Two ->
+            36
+
         Three ->
             48
 

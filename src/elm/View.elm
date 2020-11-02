@@ -251,6 +251,9 @@ noteToString ( degree, octave ) =
     let
         displayOctave =
             case octave of
+                Music.Two ->
+                    "2"
+
                 Music.Three ->
                     "3"
 
